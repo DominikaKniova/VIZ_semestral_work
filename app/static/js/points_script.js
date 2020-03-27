@@ -1,10 +1,9 @@
-var margin = {top: 10, right: 30, bottom: 30, left: 50},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+// var margin = {top: 0, right: 30, bottom: 30, left: 50},
+//     width = 460 - margin.left - margin.right,
+//     height = 400 - margin.top - margin.bottom;
 
-
-// actScale = 1;
-// zoomFactor = 0.1;
+var width=400;
+var height=400;
 
 var zoom = d3.zoom();
 zoom.wheelDelta(function () {
@@ -15,15 +14,16 @@ zoom.wheelDelta(function () {
 var svg = d3.select("#plot")
     .append("svg")
     .attr("style", "outline: 5px solid black;")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    // .attr("width", width + margin.left + margin.right)
+    // .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width)
+    .attr("height", height)
     .call(zoom.on("zoom", function () {
        svg.attr("transform", d3.event.transform)
     }))
     // .call(zoom.on("zoom", redraw).scaleExtent([minZoom, maxZoom]))
     .append("g")
-    .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+    // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var data_x = [];
 var data_y = [];
@@ -56,20 +56,21 @@ d3.csv("data/points.csv", function (data) {
 
 
 // set the dimensions and margins of the graph
-var margin = {top: 80, right: 25, bottom: 30, left: 40},
-  width = 450 - margin.left - margin.right,
-  height = 450 - margin.top - margin.bottom;
+// var margin = {top: 80, right: 25, bottom: 30, left: 40},
+//   width = 450 - margin.left - margin.right,
+//   height = 450 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg2 = d3.select("#my_dataviz")
 .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
+  // .attr("width", width + margin.left + margin.right)
+  // .attr("height", height + margin.top + margin.bottom)
+  .attr("width", width)
+  .attr("height", height)
 .append("g")
-  .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+  // .attr("transform",
+  //       "translate(" + margin.left + "," + margin.top + ")");
 
-//Read the data
 d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
 
   // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
@@ -81,21 +82,21 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/he
     .range([ 0, width ])
     .domain(myGroups)
     .padding(0.05);
-  svg2.append("g")
-    .style("font-size", 15)
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).tickSize(0))
-    .select(".domain").remove()
+  // svg2.append("g")
+  //   .style("font-size", 15)
+  //   .attr("transform", "translate(0," + height + ")")
+  //   // .call(d3.axisBottom(x).tickSize(0))
+  //   .select(".domain").remove()
 
   // Build Y scales and axis:
   var y = d3.scaleBand()
     .range([ height, 0 ])
     .domain(myVars)
     .padding(0.05);
-  svg2.append("g")
-    .style("font-size", 15)
-    .call(d3.axisLeft(y).tickSize(0))
-    .select(".domain").remove()
+  // svg2.append("g")
+  //   .style("font-size", 15)
+  //   // .call(d3.axisLeft(y).tickSize(0))
+  //   .select(".domain").remove()
 
   // Build color scale
   var myColor = d3.scaleSequential()

@@ -1,7 +1,30 @@
 #plot {
     display: inline-block;
+    margin: 0;
+    padding: 0;
 }
 
 #my_dataviz {
     display: inline-block;
+    margin: 10px;
+    padding: 0;
 }
+
+#wrapper{
+    margin: 0;
+    padding: 0;
+}
+/*#wrapper {*/
+/*    width: 500px;*/
+/*    border: 1px solid black;*/
+/*    overflow: hidden; !* will contain if #first is longer than #second *!*/
+/*}*/
+/*#plot {*/
+/*    width: 300px;*/
+/*    float:left; !* add this *!*/
+/*    border: 1px solid red;*/
+/*}*/
+/*#my_dataviz {*/
+/*    border: 1px solid green;*/
+/*    overflow: hidden; !* if you don't want #second to wrap below #first *!*/
+/*}*/

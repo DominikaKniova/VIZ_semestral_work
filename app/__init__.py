@@ -34,5 +34,13 @@ def get_data():
                      attachment_filename='points.csv',
                      as_attachment=True)
 
+# @app.route('/data/marvel.json', methods=['GET'])
+# def get_data22():
+#     print('fafs')
+#     return send_file('data/marvel.json',
+#                      mimetype='text/json',
+#                      attachment_filename='marvel.json',
+#                      as_attachment=True)
+
 if __name__ == '__main__':
-    app.run()
+    app.run(port=8080)
