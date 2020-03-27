@@ -3,8 +3,8 @@ var margin = {top: 10, right: 30, bottom: 30, left: 50},
     height = 400 - margin.top - margin.bottom;
 
 
-actScale = 1;
-zoomFactor = 0.1;
+// actScale = 1;
+// zoomFactor = 0.1;
 
 var zoom = d3.zoom();
 zoom.wheelDelta(function () {
