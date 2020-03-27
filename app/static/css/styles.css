@@ -1,5 +1,7 @@
+#plot {
+    display: inline-block;
+}
 
-
-/*g {*/
-/*    border: 10px solid black;*/
-/*}*/
+#my_dataviz {
+    display: inline-block;
+}
