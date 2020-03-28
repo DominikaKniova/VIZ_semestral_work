@@ -18,28 +18,28 @@ var svg_left = d3.select("#plot") // append the svg object to the body of the pa
     }))
     .append("g")
 
-d3.csv("Tmp/points.csv", function (data) {
-    var data_x = [];
-    var data_y = [];
-    data.map(function (d) {
-        data_x.push(+d.x);
-        data_y.push(+d.y);
-    })
-
-    // console.log("data_x", data_x);
-    // console.log("data_y", data_y);
-    // console.log("d", data_x[0]);
-
-    // svg_left.append('g') // draw points
-    //     .selectAll("dot")
-    //     .data(data)
-    //     .enter()
-    //     .append("circle")
-    //     .attr("fill", "red")
-    //     .attr("cx", function (d) { return d.x })
-    //     .attr("cy", function (d) { return d.y })
-    //     .attr("r", 3)
-});
+// d3.csv("Tmp/points.csv", function (data) {
+//     var data_x = [];
+//     var data_y = [];
+//     data.map(function (d) {
+//         data_x.push(+d.x);
+//         data_y.push(+d.y);
+//     })
+//
+//     // console.log("data_x", data_x);
+//     // console.log("data_y", data_y);
+//     // console.log("d", data_x[0]);
+//
+//     // svg_left.append('g') // draw points
+//     //     .selectAll("dot")
+//     //     .data(data)
+//     //     .enter()
+//     //     .append("circle")
+//     //     .attr("fill", "red")
+//     //     .attr("cx", function (d) { return d.x })
+//     //     .attr("cy", function (d) { return d.y })
+//     //     .attr("r", 3)
+// });
 
 
 var svg_hmap1 = d3.select("#my_dataviz")
