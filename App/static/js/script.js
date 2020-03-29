@@ -8,6 +8,8 @@ var mult = 200;
 var margin_heatmap = 100;
 var zoom = d3.zoom();
 
+
+
 zoom.wheelDelta(function () { // change zoom speed
     scale = -d3.event.deltaY * 0.03;
     return scale;
@@ -209,6 +211,11 @@ d3.csv("Data/points.csv", function (data) {
         tooltip2
             .style("opacity", 0)
     }
+    var mouseclick = function(d){
+        console.log(d.class);
+        var json_data = [{ "id": d.class, "class": d.class, "x": d.x, "y": d.y }];
+        $.post("/data_receiver", {js_data: JSON.stringify(json_data)} );
+    }
 
     svg_left.append('g') // draw points
         .selectAll("dot")
@@ -224,6 +231,7 @@ d3.csv("Data/points.csv", function (data) {
         .style("fill", function (d) { return color(d.class) })
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave)
+        .on("click", mouseclick)
         // .style("fill", "url(#linear-gradient)")
         // .style("stroke", function (d, i) { return color(i) })
 })
