@@ -3,12 +3,12 @@ import numpy as np
 import csv, os
 import json
 
+from heatmaps import test_heatmaps
+
 def generate_2d_points(low, high, n):
     return np.random.uniform(low=low, high=high, size=(n, 2))
 
 app = Flask(__name__)
-
-import numpy as np
 
 def cart2pol(x, y):
     rho = np.sqrt(x**2 + y**2)
@@ -49,4 +49,5 @@ def get_js_data():
     return result
 
 if __name__ == '__main__':
-    app.run(port=8080)
+    test_heatmaps()
+    # app.run(port=8080)
