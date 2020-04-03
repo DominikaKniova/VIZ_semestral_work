@@ -1,42 +1,62 @@
 from flask import Flask, render_template, send_file, request
 import numpy as np
-import csv, os
-import json
+import csv, os, json
+from utils import Data_class
 
-from heatmaps import test_heatmaps
+from heatmaps import *
 
 def generate_2d_points(low, high, n):
     return np.random.uniform(low=low, high=high, size=(n, 2))
 
 app = Flask(__name__)
 
-def cart2pol(x, y):
-    rho = np.sqrt(x**2 + y**2)
-    phi = np.arctan2(y, x)
-    return(rho, phi)
-
-def pol2cart(r, phi):
-    x = r * np.cos(phi)
-    y = r * np.sin(phi)
-    return(x, y)
+data_class = Data_class()
 
 @app.route('/')
 def index():
     return render_template("index.html")
 
-@app.route('/Data/vectors.csv', methods=['GET'])
+@app.route('/endpoint/vectors.csv', methods=['GET'])
 def get_data2():
     return send_file('Data/vectors.csv',
                      mimetype='text/csv',
                      attachment_filename='vectors.csv',
                      as_attachment=True)
 
-@app.route('/Data/points.csv', methods=['GET'])
+@app.route('/endpoint/points.csv', methods=['GET'])
 def get_data3():
     return send_file('Data/points.csv',
                      mimetype='text/csv',
                      attachment_filename='points.csv',
                      as_attachment=True)
+
+@app.route('/endpoint/data_softmax.csv', methods=['GET'])
+def what_is_my_purpose():
+    id = request.args.get('id')
+    data_class.save_softmax('Tmp/softmax.csv', int(id))
+    return send_file('Tmp/softmax.csv',
+                     mimetype='text/csv',
+                     attachment_filename='softmax.csv',
+                     as_attachment=True)
+
+@app.route('/endpoint/data_dense1.csv', methods=['GET'])
+def you_pass_the_butter():
+    id = request.args.get('id')
+    data_class.save_dense1('Tmp/dense1.csv', int(id))
+    return send_file('Tmp/dense1.csv',
+                     mimetype='text/csv',
+                     attachment_filename='dense1.csv',
+                     as_attachment=True)
+
+@app.route('/endpoint/data_dense2.csv', methods=['GET'])
+def oh_my_god():
+    id = request.args.get('id')
+    data_class.save_dense1('Tmp/dense2.csv', int(id))
+    return send_file('Tmp/dense2.csv',
+                     mimetype='text/csv',
+                     attachment_filename='dense2.csv',
+                     as_attachment=True)
+
 
 @app.route('/data_receiver', methods = ['POST'])
 def get_js_data():
@@ -49,5 +69,6 @@ def get_js_data():
     return result
 
 if __name__ == '__main__':
-    test_heatmaps()
-    # app.run(port=8080)
+    # test_heatmaps(div_heatmap) # distance to the closer class
+    # test_heatmaps(div_heatmap_) # distance to one class minus distance to other class
+    app.run(port=8080)

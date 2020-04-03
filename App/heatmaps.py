@@ -29,8 +29,17 @@ def div_heatmap(classified, avg_true_class, avg_false_class):
     ax = sns.heatmap(heatmap, cmap=cmap, center=0.0, linewidths=.5)
     plt.show()
 
+def div_heatmap_(classified, avg_true_class, avg_false_class):
+    diff_from_true = np.abs(classified - avg_true_class)
+    diff_from_false = np.abs(classified - avg_false_class)
 
-def test_heatmaps():
+    heatmap = np.reshape(diff_from_true - diff_from_false, heatmap_shape)
+    cmap = sns.diverging_palette(220, 20, sep=10, as_cmap=True)
+    ax = sns.heatmap(heatmap, cmap=cmap, center=0.0, linewidths=.5)
+    plt.show()
+
+
+def test_heatmaps(draw_heatmap):
     aux = np.load('../test_data.npz')
     softmax = aux['softmax']
     preds = aux['predicted_classes']
@@ -51,5 +60,5 @@ def test_heatmaps():
     for i in range(len(preds)):
         if preds[i] != targets[i]:
             # show something falsely classified
-            div_heatmap(dense_1[i,:], class_avg_dense_1[targets[i]], class_avg_dense_1[preds[i]])
+            draw_heatmap(dense_1[i,:], class_avg_dense_1[targets[i]], class_avg_dense_1[preds[i]])
             break

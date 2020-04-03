@@ -6,11 +6,12 @@
     vertical-align: top;
 }
 
-#my_dataviz {
+#heatmaps {
     display: inline-block;
     /*margin: 100px;*/
     /*padding: 100px;*/
 }
+
 
 #wrapper{
     margin: 0;
