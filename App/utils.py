@@ -39,3 +39,18 @@ class Data_class:
 
         heatmap = diff_from_true - diff_from_false
         np.savetxt(path, heatmap, delimiter=',', comments='', header='activation')
+
+    def save_dense2(self, path, id):
+        os.makedirs(getdir(path), exist_ok=True)
+        pred = self.preds[id]
+        target = self.targets[id]
+
+        classified = self.dense2[id]
+        avg_true_class = self.class_avg_dense_2[target]
+        avg_pred_class = self.class_avg_dense_2[pred]
+
+        diff_from_true = np.abs(classified - avg_true_class)
+        diff_from_false = np.abs(classified - avg_pred_class)
+
+        heatmap = diff_from_true - diff_from_false
+        np.savetxt(path, heatmap, delimiter=',', comments='', header='activation')

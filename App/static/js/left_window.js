@@ -96,6 +96,7 @@ function call_me_maybe() { // put everything inside, it will be run once
         var mouseclick = function (d, i) {
             draw_softmax(i)
             draw_dense1(i)
+            draw_dense2(i)
             // console.log(d.class);
             // var json_data = [{"id": d.class, "class": d.class, "x": d.x, "y": d.y}];
             // $.post("/data_receiver", {js_data: JSON.stringify(json_data)});

@@ -1,33 +1,43 @@
 function draw_dense2(id) { // put everything inside, it will be run once
     // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
-    d3.csv("endpoint/data_softmax.csv?id="+id, function (data) {
+
+    var cols = 16;
+
+    d3.csv("endpoint/data_dense2.csv?id="+id, function (data) {
         // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-        // console.log(data)
-        var myGroups = d3.map(data, function (d) {
-            return d.group;
+
+
+        data.forEach(function (d,i) {
+            d.activation = +d.activation;
+            d.x = (i % cols)
+            d.y = (i - i % cols) / cols
+        });
+
+        var myXs = d3.map(data, function (d) {
+            return d.x
         }).keys()
-        var myVars = d3.map(data, function (d) {
-            return d.variable;
+        var myYs = d3.map(data, function (d) {
+            return d.y
         }).keys()
 
         // Build X scales and axis:
         var x = d3.scaleBand()
             .range([0, width_heatmap])
-            .domain(myGroups)
+            .domain(myXs)
             .padding(0.05);
 
-        // Build Y scales and axis:
         var y = d3.scaleBand()
-            .range([height_heatmap, 0])
-            .domain(myVars)
+            .range([0, height_heatmap - margin_heatmap])
+            .domain(myYs)
             .padding(0.05);
 
         // Build color scale
         var myColor = d3.scaleSequential()
-            .interpolator(d3.interpolateInferno)
-            .domain([1, 100])
+            // .interpolator(d3.interpolateInferno)
+            .interpolator(d3.interpolateRdBu)
+            .domain([-2, 2])
 
-        var tooltip = d3.select("#hmap_softmax") // create a tooltip
+        var tooltip = d3.select("#hmap_dense2") // create a tooltip
             .append("div")
             .style("opacity", 0)
             .attr("class", "tooltip")
@@ -64,25 +74,27 @@ function draw_dense2(id) { // put everything inside, it will be run once
                 .style("opacity", 0.8)
         }
 
-        // add the squares
-        svg_softmax.selectAll()
-            .data(data, function (d) {
-                return d.group + ':' + d.variable;
+        rects = svg_dense2.select('g')
+            .selectAll("rect")
+            .data(data)
+
+        rects.exit().remove()
+
+        rects.enter().append('rect')
+
+        rects
+            .attr("x", function (d,i) {
+                return x(d.x)
             })
-            .enter()
-            .append("rect")
-            .attr("x", function (d) {
-                return x(d.group)
+            .attr("y", function (d,i) {
+                return y(d.y)
             })
-            .attr("y", function (d) {
-                return y(d.variable)
-            })
-            .attr("rx", 4)
-            .attr("ry", 4)
-            .attr("width", x.bandwidth())
-            .attr("height", y.bandwidth())
+//            .attr("rx", 4)
+//            .attr("ry", 4)
+            .attr("width", cell_size)
+            .attr("height", cell_size)
             .style("fill", function (d) {
-                return myColor(d.value)
+                return myColor(d.activation)
             })
             .style("stroke-width", 4)
             .style("stroke", "none")
@@ -92,7 +104,7 @@ function draw_dense2(id) { // put everything inside, it will be run once
             .on("mouseleave", mouseleave)
 
         // Add title to graph
-        svg_softmax.append("text")
+        svg_dense2.append("text")
             .attr("x", 0)
             .attr("y", -50)
             .attr("text-anchor", "left")
@@ -100,7 +112,7 @@ function draw_dense2(id) { // put everything inside, it will be run once
         // .text("A d3.js heatmap");
 
         // Add subtitle to graph
-        svg_softmax.append("text")
+        svg_dense2.append("text")
             .attr("x", 0)
             .attr("y", -20)
             .attr("text-anchor", "left")

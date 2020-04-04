@@ -51,7 +51,7 @@ def you_pass_the_butter():
 @app.route('/endpoint/data_dense2.csv', methods=['GET'])
 def oh_my_god():
     id = request.args.get('id')
-    data_class.save_dense1('Tmp/dense2.csv', int(id))
+    data_class.save_dense2('Tmp/dense2.csv', int(id))
     return send_file('Tmp/dense2.csv',
                      mimetype='text/csv',
                      attachment_filename='dense2.csv',

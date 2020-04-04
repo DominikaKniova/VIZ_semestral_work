@@ -14,21 +14,23 @@ function draw_softmax(id) { // put everything inside, it will be run once
 
         // Build X scales and axis:
         var x = d3.scaleBand()
-            .range([0, width_heatmap])
+            .range([0, height_softmax - margin_softmax])
             .domain(myXs)
             .padding(0.05);
 
-        // Build Y scales and axis:
-        // var y = d3.scaleBand()
-        //     .range([height_heatmap, 0])
-        //     .domain(myVars)
-        //     .padding(0.05);
+//         var y = d3.scaleBand()
+//             .range([0, height_softmax])
+//             .domain(myVars)
+//             .padding(0.05);
 
         // Build color scale
-        var myColor = d3.scaleSequential()
-            // .interpolator(d3.interpolateInferno)
-            .interpolator(d3.interpolateRdBu)
-            .domain([-2, 2])
+//        var myColor = d3.scaleSequential()
+//            // .interpolator(d3.interpolateInferno)
+//            .interpolator(d3.interpolateRdBu)
+//            .domain([-2, 2])
+        var myColor = d3.scaleLinear()
+          .range(["white", "black"])
+          .domain([0.0,1.0])
 
         var tooltip = d3.select("#hmap_softmax") // create a tooltip
             .append("div")
@@ -78,19 +80,19 @@ function draw_softmax(id) { // put everything inside, it will be run once
         rects
             // .enter()
             // .append("rect")
-            .attr("x", function (d,i) {
+            .attr("y", function (d,i) {
                 return x(i)
             })
-            .attr("y", 0)
-            .attr("rx", 4)
-            .attr("ry", 4)
-            .attr("width", x.bandwidth())
-            .attr("height", heatmap_window_height)
+            .attr("x", 0)
+//            .attr("rx", 4)
+//            .attr("ry", 4)
+            .attr("width", softmax_cell_size)
+            .attr("height", softmax_cell_size)
             .style("fill", function (d) {
                 return myColor(d.activation)
             })
-            .style("stroke-width", 4)
-            .style("stroke", "none")
+            .style("stroke-width", 1)
+            .style("stroke", "black")
             .style("opacity", 0.8)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)

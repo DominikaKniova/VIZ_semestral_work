@@ -1,15 +1,16 @@
 function draw_dense1(id) { // put everything inside, it will be run once
     // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
-    var rows = 16
-    var cols = 32
+    var rows = 32
+    var cols = 16
+
 
     d3.csv("endpoint/data_dense1.csv?id="+id, function (data) {
         // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-
         data.forEach(function (d,i) {
             d.activation = +d.activation;
             d.x = (i % cols)
             d.y = (i - i % cols) / cols
+
         });
 
         var myXs = d3.map(data, function (d) {
@@ -26,7 +27,7 @@ function draw_dense1(id) { // put everything inside, it will be run once
             .padding(0.05);
 
         var y = d3.scaleBand()
-            .range([0, height_heatmap])
+            .range([0, height_heatmap - margin_heatmap])
             .domain(myYs)
             .padding(0.05);
 
@@ -87,17 +88,16 @@ function draw_dense1(id) { // put everything inside, it will be run once
 
         rects.enter().append('rect')
 
-        rects
-            .attr("x", function (d,i) {
+        rects.attr("x", function (d,i) {
                 return x(d.x)
             })
             .attr("y", function (d,i) {
                 return y(d.y)
             })
-            .attr("rx", 4)
-            .attr("ry", 4)
-            .attr("width", x.bandwidth())
-            .attr("height", y.bandwidth())
+//            .attr("rx", 4)
+//            .attr("ry", 4)
+            .attr("width", cell_size)
+            .attr("height", cell_size)
             .style("fill", function (d) {
                 return myColor(d.activation)
             })
@@ -107,6 +107,7 @@ function draw_dense1(id) { // put everything inside, it will be run once
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
+    console.log("hello from the other side");
 
         // Add title to graph
         svg_dense1.append("text")
