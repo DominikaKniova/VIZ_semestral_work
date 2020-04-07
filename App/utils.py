@@ -34,6 +34,11 @@ class Data_class:
         avg_true_class = self.class_avg_dense_1[target]
         avg_pred_class = self.class_avg_dense_1[pred]
 
+        if pred == target:
+            data = np.concatenate((classified, avg_true_class), axis=None)
+            np.savetxt(path, data, delimiter=',', comments='', header='activation')
+            return
+
         diff_from_true = np.abs(classified - avg_true_class)
         diff_from_false = np.abs(classified - avg_pred_class)
 
@@ -48,6 +53,11 @@ class Data_class:
         classified = self.dense2[id]
         avg_true_class = self.class_avg_dense_2[target]
         avg_pred_class = self.class_avg_dense_2[pred]
+
+        if pred == target:
+            data = np.concatenate((classified, avg_true_class))
+            np.savetxt(path, data, delimiter=',', comments='', header='activation')
+            return
 
         diff_from_true = np.abs(classified - avg_true_class)
         diff_from_false = np.abs(classified - avg_pred_class)

@@ -6,9 +6,22 @@ function draw_dense2(id) { // put everything inside, it will be run once
     d3.csv("endpoint/data_dense2.csv?id="+id, function (data) {
         // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
 
+        if (data.length == 1024){
+            draw_dense2_seq(id, data);
+            return;
+        }
+
+        var min = Number.POSITIVE_INFINITY;
+        var max = Number.NEGATIVE_INFINITY;
 
         data.forEach(function (d,i) {
             d.activation = +d.activation;
+            if (d.activation > max){
+            max = d.activation;
+            }
+            if (d.activation < min){
+                min = d.activation;
+            }
             d.x = (i % cols)
             d.y = (i - i % cols) / cols
         });
@@ -35,7 +48,7 @@ function draw_dense2(id) { // put everything inside, it will be run once
         var myColor = d3.scaleSequential()
             // .interpolator(d3.interpolateInferno)
             .interpolator(d3.interpolateRdBu)
-            .domain([-2, 2])
+            .domain([min, max])
 
         var tooltip = d3.select("#hmap_dense2") // create a tooltip
             .append("div")
@@ -61,7 +74,7 @@ function draw_dense2(id) { // put everything inside, it will be run once
         }
         var mousemove = function (d) {
             tooltip
-                .html("The exact value of<br>this cell is: " + d.value)
+                .html("The exact value of<br>this cell is: " + Math.round(d.activation*1000)/1000)
                 .style("left", (d3.event.pageX + 10) + "px")
                 .style("top", (d3.event.pageY) + "px")
             // .style("position", 'fixed')

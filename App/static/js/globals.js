@@ -8,7 +8,7 @@ var midy = height_left/2;
 var mult = 200;
 var zoom = d3.zoom();
 
-var cell_size = 15;
+var cell_size = 20;
 var width_heatmap = 400;
 var height_heatmap = 700;
 var margin_heatmap = 50;
