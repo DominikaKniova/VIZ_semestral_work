@@ -1,8 +1,5 @@
 function draw_softmax(id) { // put everything inside, it will be run once
-    // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
-    console.log('uaaa')
     d3.csv("endpoint/data_softmax.csv?id="+id, function (data) {
-        // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
 
         data.forEach(function (d) {
             d.activation = +d.activation;
@@ -12,16 +9,10 @@ function draw_softmax(id) { // put everything inside, it will be run once
             return i;
         }).keys()
 
-        // Build X scales and axis:
         var x = d3.scaleBand()
             .range([0, height_softmax - margin_softmax])
             .domain(myXs)
             .padding(0.05);
-
-//         var y = d3.scaleBand()
-//             .range([0, height_softmax])
-//             .domain(myVars)
-//             .padding(0.05);
 
         // Build color scale
 //        var myColor = d3.scaleSequential()
@@ -51,7 +42,7 @@ function draw_softmax(id) { // put everything inside, it will be run once
                 .style("opacity", 1)
             d3.select(this)
                 .style("stroke", "black")
-                .style("stroke-width", "3px")
+                .style("stroke-width", "1px")
             // .style("opacity", 1)
         }
         var mousemove = function (d) {
@@ -59,33 +50,25 @@ function draw_softmax(id) { // put everything inside, it will be run once
                 .html("The exact value of<br>this cell is: " + Math.round(d.activation*1000)/1000)
                 .style("left", (d3.event.pageX + 10) + "px")
                 .style("top", (d3.event.pageY) + "px")
-            // .style("position", 'fixed')
         }
         var mouseleave = function (d) {
             tooltip
                 .style("opacity", 0)
-            d3.select(this)
-                .style("stroke", "none")
-                .style("opacity", 0.8)
         }
 
-        rects = svg_softmax.select('g')
+        svg_softmax.select('g')
+            .selectAll("rect")
+            .remove()
+
+        svg_softmax.select('g')
             .selectAll("rect")
             .data(data)
-
-        rects.exit().remove()
-
-        rects.enter().append('rect')
-
-        rects
-            // .enter()
-            // .append("rect")
+            .enter()
+            .append('rect')
             .attr("y", function (d,i) {
                 return x(i)
             })
             .attr("x", 0)
-//            .attr("rx", 4)
-//            .attr("ry", 4)
             .attr("width", softmax_cell_size)
             .attr("height", softmax_cell_size)
             .style("fill", function (d) {
@@ -104,7 +87,7 @@ function draw_softmax(id) { // put everything inside, it will be run once
             .attr("y", -50)
             .attr("text-anchor", "left")
             .style("font-size", "22px")
-        // .text("A d3.js heatmap");
+            .text("A d3.js heatmap");
 
         // Add subtitle to graph
         svg_softmax.append("text")
@@ -114,7 +97,7 @@ function draw_softmax(id) { // put everything inside, it will be run once
             .style("font-size", "14px")
             .style("fill", "grey")
             .style("max-width", 400)
-        // .text("A short description");
+            .text("A short description");
     })
 }
 // draw_softmax()

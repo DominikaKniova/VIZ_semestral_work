@@ -1,8 +1,5 @@
 function draw_dense1(id) { // put everything inside, it will be run once
-    // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
-    var rows = 32
     var cols = 16
-
 
     d3.csv("endpoint/data_dense1.csv?id="+id, function (data) {
 
@@ -42,7 +39,6 @@ function draw_dense1(id) { // put everything inside, it will be run once
             return d.y
         }).keys()
 
-        // Build X scales and axis:
         var x = d3.scaleBand()
             .range([0, width_heatmap])
             .domain(myXs)
@@ -53,15 +49,7 @@ function draw_dense1(id) { // put everything inside, it will be run once
             .domain(myYs)
             .padding(0.05);
 
-        // Build Y scales and axis:
-        // var y = d3.scaleBand()
-        //     .range([height_heatmap, 0])
-        //     .domain(myVars)
-        //     .padding(0.05);
-
-        // Build color scale
         var myColor = d3.scaleSequential()
-            // .interpolator(d3.interpolateInferno)
             .interpolator(d3.interpolateRdBu)
             .domain([min, max])
 
@@ -102,22 +90,21 @@ function draw_dense1(id) { // put everything inside, it will be run once
                 .style("opacity", 0.8)
         }
 
-        rects = svg_dense1.select('g')
+        svg_dense1.select('g')
+            .selectAll("rect")
+            .remove()
+
+        svg_dense1.select('g')
             .selectAll("rect")
             .data(data)
-
-        rects.exit().remove()
-
-        rects.enter().append('rect')
-
-        rects.attr("x", function (d,i) {
+            .enter()
+            .append('rect')
+            .attr("x", function (d,i) {
                 return x(d.x)
             })
             .attr("y", function (d,i) {
                 return y(d.y)
             })
-//            .attr("rx", 4)
-//            .attr("ry", 4)
             .attr("width", cell_size)
             .attr("height", cell_size)
             .style("fill", function (d) {
@@ -129,7 +116,7 @@ function draw_dense1(id) { // put everything inside, it will be run once
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
-    console.log("hello from the other side");
+    // console.log("hello from the other side");
 
         // Add title to graph
         svg_dense1.append("text")

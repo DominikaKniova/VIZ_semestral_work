@@ -1,6 +1,4 @@
 function draw_dense2(id) { // put everything inside, it will be run once
-    // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function (data) {
-
     var cols = 16;
 
     d3.csv("endpoint/data_dense2.csv?id="+id, function (data) {
@@ -43,6 +41,9 @@ function draw_dense2(id) { // put everything inside, it will be run once
             .range([0, height_heatmap - margin_heatmap])
             .domain(myYs)
             .padding(0.05);
+
+        // data.sort(function(a,b) {return a.z - b.z});
+        // math.min()
 
         // Build color scale
         var myColor = d3.scaleSequential()
@@ -87,23 +88,21 @@ function draw_dense2(id) { // put everything inside, it will be run once
                 .style("opacity", 0.8)
         }
 
-        rects = svg_dense2.select('g')
+        svg_dense2.select('g')
+            .selectAll("rect")
+            .remove()
+
+        svg_dense2.select('g')
             .selectAll("rect")
             .data(data)
-
-        rects.exit().remove()
-
-        rects.enter().append('rect')
-
-        rects
+            .enter()
+            .append('rect')
             .attr("x", function (d,i) {
                 return x(d.x)
             })
             .attr("y", function (d,i) {
                 return y(d.y)
             })
-//            .attr("rx", 4)
-//            .attr("ry", 4)
             .attr("width", cell_size)
             .attr("height", cell_size)
             .style("fill", function (d) {
