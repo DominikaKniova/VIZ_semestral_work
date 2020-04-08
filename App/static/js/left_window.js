@@ -1,4 +1,5 @@
 function draw_points(min, max){
+    var svg = svg_left
     d3.csv("endpoint/points.csv?min="+min+"&max="+max, function (data) {
 
         data.forEach(function (d) {
@@ -9,7 +10,7 @@ function draw_points(min, max){
 
         var color = d3.scaleSequential()
             .interpolator(d3.interpolateRainbow)
-            .domain([1, 10])
+            .domain([0, 9])
 
         var tooltip2 = d3.select("#plot") // create a tooltip
             .append("div")
@@ -41,15 +42,14 @@ function draw_points(min, max){
                 .style("opacity", 0)
         }
         var mouseclick = function (d, i) {
+            console.log(d)
             draw_softmax(i)
             draw_dense1(i)
             draw_dense2(i)
         }
 
-        // update data
-        var dots = svg_left.select("g").selectAll("circle").data(data);
-        dots.exit().remove();
-        dots.enter()
+        svg.select('#g_dots').selectAll("circle").remove();
+        svg.select('#g_dots').selectAll("circle").data(data).enter()
             .append("circle")
             // .attr("fill", "red")
             .attr('id', 'puntiky')
@@ -68,11 +68,10 @@ function draw_points(min, max){
             .on("mouseleave", mouseleave)
             .on("click", mouseclick)
     })
-
 }
 
-function call_me_maybe() { // put everything inside, it will be run once
-
+(function () { // everything inside is called ONCE
+    var svg = svg_left;
     d3.csv("endpoint/vectors.csv", function (data) {
         data.forEach(function (d) {
             d.x = +d.x;
@@ -81,10 +80,11 @@ function call_me_maybe() { // put everything inside, it will be run once
 
         var color = d3.scaleSequential()
             .interpolator(d3.interpolateRainbow)
-            .domain([1, 10])
+            .domain([0, 9])
 
-        svg_left.append('g') // draw points
-            .selectAll("dot")
+        svg // draw points
+            .select('#g_vectors')
+            .selectAll('circle')
             .data(data)
             .enter()
             .append("circle")
@@ -104,6 +104,5 @@ function call_me_maybe() { // put everything inside, it will be run once
         // .style("stroke", function (d, i) { return color(i) })
     })
 
-        draw_points(slider_range_min, slider_range_max);
-}
-call_me_maybe()
+    draw_points(slider_range_min, slider_range_max);
+}()); // immediately calls the function

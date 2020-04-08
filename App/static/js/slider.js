@@ -1,4 +1,4 @@
-function slider_handler(){
+(function (){
     var onchange = function(d){
         d3.select('p#slider_value').text(d
           .map(d3.format('.2'))
@@ -34,8 +34,4 @@ function slider_handler(){
       .map(d3.format('.2'))
       .join(' - ')
     );
-
-
-}
-
-slider_handler()
+}());
