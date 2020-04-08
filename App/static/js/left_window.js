@@ -1,4 +1,4 @@
-function draw_points(min, max){
+function draw_points(min, max, checkbox){
     var svg = svg_left
     d3.csv("endpoint/points.csv?min="+min+"&max="+max, function (data) {
 
@@ -27,7 +27,7 @@ function draw_points(min, max){
 
         var mouseover = function (d) {
             tooltip2
-                .style("opacity", 1)
+                .style("opacity", 1);
         }
         var mousemove = function (d) {
             tooltip2
@@ -35,11 +35,19 @@ function draw_points(min, max){
                 .style("opacity", 1)
                 .style("left", (d3.event.pageX + 20) + "px")
                 .style("top", (d3.event.pageY) + "px")
+                .append("img")
+                    .attr("src","https://github.com/favicon.ico")
             // .style("position", 'fixed')
+            d3.select(this)
+            .attr("r", 10)
+            .style("opacity", 1.0)
         }
         var mouseleave = function (d) {
             tooltip2
-                .style("opacity", 0)
+                .style("opacity", 0);
+            d3.select(this)
+            .attr("r", 3)
+            .style("opacity", 0.5)
         }
         var mouseclick = function (d, i) {
             console.log(d)
@@ -104,5 +112,5 @@ function draw_points(min, max){
         // .style("stroke", function (d, i) { return color(i) })
     })
 
-    draw_points(slider_range_min, slider_range_max);
+    draw_points(slider_range_min, slider_range_max, checkbox_choices);
 }()); // immediately calls the function

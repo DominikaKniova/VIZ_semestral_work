@@ -27,6 +27,9 @@ var slider_range_min = 0.5;
 var slider_range_max = 1.0;
 var slider_ticks = 5;
 
+//checkbox variables
+var checkbox_choices = [];
+
 zoom.wheelDelta(function () { // change zoom speed
         scale = -d3.event.deltaY * 0.03;
         return scale;
