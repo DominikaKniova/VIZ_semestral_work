@@ -1,8 +1,8 @@
 function draw_dense1(id) { // put everything inside, it will be run once
     var cols = 16
     var svg = svg_dense1
-    var min = Number.POSITIVE_INFINITY;
-    var max = Number.NEGATIVE_INFINITY;
+    var act_min = Number.POSITIVE_INFINITY;
+    var act_max = Number.NEGATIVE_INFINITY;
     var diverging = true
 
     d3.csv("endpoint/data_dense1.csv?id="+id, function (data) {
@@ -19,25 +19,33 @@ function draw_dense1(id) { // put everything inside, it will be run once
 
         data.forEach(function (d,i) {
             d.activation = +d.activation;
-            if (d.activation > max){
-            max = d.activation;
+            if (d.activation > act_max){
+            act_max = d.activation;
             }
-            if (d.activation < min){
-                min = d.activation;
+            if (d.activation < act_min){
+                act_min = d.activation;
             }
             d.x = (i % cols)
             d.y = (i - i % cols) / cols
         });
 
         if (!diverging){
-            var myColor = d3.scaleSequential()
-                .interpolator(d3.interpolateViridis)
-                .domain([min, max])
+            // var myColor = d3.scaleSequential()
+            //     .interpolator(d3.interpolateViridis)
+            //     .domain([min_act, max_act])
+
+            var myColor= function (act) {
+                return d3.rgb(...get_rgb(act, act_min, act_max, _viridis_data))
+            }
         }
         else{
-            var myColor = d3.scaleSequential()
-                .interpolator(d3.interpolateRdBu)
-                .domain([min, max])
+            // var myColor = d3.scaleSequential()
+            //     .interpolator(d3.interpolateRdBu)
+            //     .domain([act_min, act_max])
+
+            var myColor= function (act) {
+                return d3.rgb(...get_rgb(act, act_min, act_max, _RdBu_data))
+            }
         }
 
         var myXs = d3.map(data, function (d) {
