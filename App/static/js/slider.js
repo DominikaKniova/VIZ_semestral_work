@@ -1,4 +1,5 @@
 (function (){
+    var slider_width = 200
     var onchange = function(d){
         d3.select('p#slider_value').text(d
           .map(d3.format('.2'))
@@ -11,7 +12,7 @@
     .sliderBottom()
     .min(0.0)
     .max(1.0)
-    .width(300)
+    .width(slider_width)
     .tickFormat(d3.format('.2'))
 //    .ticks(10)
     .ticks(slider_ticks)
@@ -22,7 +23,7 @@
     var g_slider = d3
     .select('div#slider')
     .append('svg')
-    .attr('width', 500)
+    .attr('width', slider_width+60)
     .attr('height', 100)
     .append('g')
     .attr('transform', 'translate(30,30)');
