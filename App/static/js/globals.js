@@ -13,12 +13,14 @@ var cell_size = 15;
 var width_heatmap = 240;
 var height_heatmap = 480;
 var margin_heatmap = 50;
-var heatmap_window_height = 20;
+// var heatmap_window_height = 20;
 
 var width_softmax = 100;
 var height_softmax = 480;
 var softmax_cell_size = 30;
 var margin_softmax = 50;
+
+fontsize = '20px'
 
 var svg_softmax = d3.select("#hmap_softmax")
         .append("svg")

@@ -1,24 +1,22 @@
 function draw_dense1(id) { // put everything inside, it will be run once
     var cols = 16
+    var svg = svg_dense1
+    var min = Number.POSITIVE_INFINITY;
+    var max = Number.NEGATIVE_INFINITY;
+    var diverging = true
 
     d3.csv("endpoint/data_dense1.csv?id="+id, function (data) {
-
-        console.log(data.length);
-
 //        i found one bug here, thats why this condition is here to check it
         if (data.length == 2){
             console.log(data);
         }
 
         if (data.length == 1024){
-            draw_dense1_seq(id, data);
-            return;
+            // data = data.slice(512, 1024);
+            data = data.slice(0, 512); // we want instance, not class?
+            diverging = false
         }
 
-        var min = Number.POSITIVE_INFINITY;
-        var max = Number.NEGATIVE_INFINITY;
-
-        // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
         data.forEach(function (d,i) {
             d.activation = +d.activation;
             if (d.activation > max){
@@ -29,8 +27,18 @@ function draw_dense1(id) { // put everything inside, it will be run once
             }
             d.x = (i % cols)
             d.y = (i - i % cols) / cols
-
         });
+
+        if (!diverging){
+            var myColor = d3.scaleSequential()
+                .interpolator(d3.interpolateViridis)
+                .domain([min, max])
+        }
+        else{
+            var myColor = d3.scaleSequential()
+                .interpolator(d3.interpolateRdBu)
+                .domain([min, max])
+        }
 
         var myXs = d3.map(data, function (d) {
             return d.x
@@ -39,21 +47,17 @@ function draw_dense1(id) { // put everything inside, it will be run once
             return d.y
         }).keys()
 
-        var x = d3.scaleBand()
+        var get_x = d3.scaleBand()
             .range([0, width_heatmap])
             .domain(myXs)
             .padding(0.05);
 
-        var y = d3.scaleBand()
+        var get_y = d3.scaleBand()
             .range([0, height_heatmap - margin_heatmap])
             .domain(myYs)
             .padding(0.05);
 
-        var myColor = d3.scaleSequential()
-            .interpolator(d3.interpolateRdBu)
-            .domain([min, max])
-
-        var tooltip = d3.select("#hmap_dense1") // create a tooltip
+        var tooltip = d3.select("#hmap_dense1")
             .append("div")
             .style("opacity", 0)
             .attr("class", "tooltip")
@@ -66,7 +70,6 @@ function draw_dense1(id) { // put everything inside, it will be run once
             .style("height", "60px")
             .style("padding", "5px")
 
-        // Three function that change the tooltip when user hover / move / leave a cell
         var mouseover = function (d) {
             tooltip
                 .style("opacity", 1)
@@ -80,7 +83,6 @@ function draw_dense1(id) { // put everything inside, it will be run once
                 .html("The exact value of<br>this cell is: " + Math.round(d.activation*1000)/1000)
                 .style("left", (d3.event.pageX + 10) + "px")
                 .style("top", (d3.event.pageY) + "px")
-            // .style("position", 'fixed')
         }
         var mouseleave = function (d) {
             tooltip
@@ -90,20 +92,20 @@ function draw_dense1(id) { // put everything inside, it will be run once
                 .style("opacity", 0.8)
         }
 
-        svg_dense1.select('g')
+        svg.select('g')
             .selectAll("rect")
             .remove()
 
-        svg_dense1.select('g')
+        svg.select('g')
             .selectAll("rect")
             .data(data)
             .enter()
             .append('rect')
             .attr("x", function (d,i) {
-                return x(d.x)
+                return get_x(d.x)
             })
             .attr("y", function (d,i) {
-                return y(d.y)
+                return get_y(d.y)
             })
             .attr("width", cell_size)
             .attr("height", cell_size)
@@ -116,24 +118,17 @@ function draw_dense1(id) { // put everything inside, it will be run once
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
-    // console.log("hello from the other side");
 
-        // Add title to graph
-        svg_dense1.append("text")
-            .attr("x", 0)
-            .attr("y", -50)
-            .attr("text-anchor", "left")
-            .style("font-size", "22px")
-        // .text("A d3.js heatmap");
+        svg.select("text").remove()
 
-        // Add subtitle to graph
-        svg_dense1.append("text")
+        svg.append("text")
             .attr("x", 0)
-            .attr("y", -20)
-            .attr("text-anchor", "left")
-            .style("font-size", "14px")
-            .style("fill", "grey")
-            .style("max-width", 400)
-        // .text("A short description");
+            .attr("y", height_heatmap-10)
+            .style("font-size", fontsize)
+            .text("Dense layer 1");
+
+        svg.select('text').attr('x', function () {
+            return svg.select('text').attr('x') + svg.select('g').node().getBBox().width / 2 - svg.select('text').node().getBBox().width / 2
+        })
     })
 }

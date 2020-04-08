@@ -35,8 +35,10 @@ class Data_class:
         avg_pred_class = self.class_avg_dense_1[pred]
 
         if pred == target:
+            print(classified)
             data = np.concatenate((classified, avg_true_class), axis=None)
             np.savetxt(path, data, delimiter=',', comments='', header='activation')
+            # print('saved', data.shape)
             return
 
         diff_from_true = np.abs(classified - avg_true_class)

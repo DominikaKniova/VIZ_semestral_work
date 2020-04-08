@@ -1,6 +1,7 @@
 function draw_softmax(id) { // put everything inside, it will be run once
-    d3.csv("endpoint/data_softmax.csv?id="+id, function (data) {
+    var svg = svg_softmax
 
+    d3.csv("endpoint/data_softmax.csv?id="+id, function (data) {
         data.forEach(function (d) {
             d.activation = +d.activation;
         });
@@ -36,7 +37,6 @@ function draw_softmax(id) { // put everything inside, it will be run once
             .style("height", "60px")
             .style("padding", "5px")
 
-        // Three function that change the tooltip when user hover / move / leave a cell
         var mouseover = function (d) {
             tooltip
                 .style("opacity", 1)
@@ -56,11 +56,11 @@ function draw_softmax(id) { // put everything inside, it will be run once
                 .style("opacity", 0)
         }
 
-        svg_softmax.select('g')
+        svg.select('g')
             .selectAll("rect")
             .remove()
 
-        svg_softmax.select('g')
+        svg.select('g')
             .selectAll("rect")
             .data(data)
             .enter()
@@ -81,23 +81,10 @@ function draw_softmax(id) { // put everything inside, it will be run once
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
 
-        // Add title to graph
-        svg_softmax.append("text")
+        svg.append("text")
             .attr("x", 0)
-            .attr("y", -50)
-            .attr("text-anchor", "left")
-            .style("font-size", "22px")
-            .text("A d3.js heatmap");
-
-        // Add subtitle to graph
-        svg_softmax.append("text")
-            .attr("x", 0)
-            .attr("y", -20)
-            .attr("text-anchor", "left")
-            .style("font-size", "14px")
-            .style("fill", "grey")
-            .style("max-width", 400)
-            .text("A short description");
+            .attr("y", height_heatmap-10)
+            .style("font-size", fontsize)
+            .text("Softmax");
     })
 }
-// draw_softmax()
