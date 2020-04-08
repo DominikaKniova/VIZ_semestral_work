@@ -22,6 +22,33 @@ var margin_softmax = 50;
 
 fontsize = '20px'
 
+//slider variables
+var slider_range_min = 0.5;
+var slider_range_max = 1.0;
+var slider_ticks = 5;
+
+zoom.wheelDelta(function () { // change zoom speed
+        scale = -d3.event.deltaY * 0.03;
+        return scale;
+    });
+
+    var zoomed = function () {
+        svg_left.attr("transform", d3.event.transform)
+        d3.selectAll("#puntiky")
+            .attr("r", 3 / d3.event.transform.k)
+    }
+
+var svg_left = d3.select("#plot")
+        .append("svg")
+        .attr("width", width_left)
+        .attr("height", height_left)
+        // .call(zoom.on("zoom", function () {
+        //     svg_left.attr("transform", d3.event.transform)
+        // }))
+        .call(zoom.on("zoom", zoomed))
+        .on("dblclick.zoom", null)
+        .append("g")
+
 var svg_softmax = d3.select("#hmap_softmax")
         .append("svg")
         .attr("width", width_softmax)

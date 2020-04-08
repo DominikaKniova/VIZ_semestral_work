@@ -19,6 +19,9 @@ class Data_class:
         self.class_avg_dense_1 = [np.genfromtxt(path + 'Dense1/class{}.csv'.format(i), delimiter='\n', skip_header=True) for i in range(10)]
         self.class_avg_dense_2 = [np.genfromtxt(path + 'Dense2/class{}.csv'.format(i), delimiter='\n', skip_header=True) for i in range(10)]
 
+        self.points = np.genfromtxt(path + 'points.csv', delimiter=',', skip_header=True)
+
+
     def save_softmax(self, path, id):
         os.makedirs(getdir(path), exist_ok=True)
 
@@ -35,7 +38,7 @@ class Data_class:
         avg_pred_class = self.class_avg_dense_1[pred]
 
         if pred == target:
-            print(classified)
+            # print(classified)
             data = np.concatenate((classified, avg_true_class), axis=None)
             np.savetxt(path, data, delimiter=',', comments='', header='activation')
             # print('saved', data.shape)
@@ -66,3 +69,12 @@ class Data_class:
 
         heatmap = diff_from_true - diff_from_false
         np.savetxt(path, heatmap, delimiter=',', comments='', header='activation')
+
+    def save_points(self, path, range_min, range_max):
+        os.makedirs(getdir(path), exist_ok=True)
+
+        maxs = np.max(self.softmax, axis=1)
+        args = np.argwhere((maxs > range_min) & (maxs < range_max))
+
+        pts = self.points[args.flatten(), :]
+        np.savetxt(path, pts, delimiter=',', comments='', header='x,y,class')

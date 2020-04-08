@@ -25,7 +25,10 @@ def get_data2():
 
 @app.route('/endpoint/points.csv', methods=['GET'])
 def get_data3():
-    return send_file('Data/points.csv',
+    min = request.args.get('min')
+    max = request.args.get('max')
+    data_class.save_points('Tmp/points.csv', float(min), float(max))
+    return send_file('Tmp/points.csv',
                      mimetype='text/csv',
                      attachment_filename='points.csv',
                      as_attachment=True)
@@ -64,7 +67,6 @@ def get_js_data():
     # so far we are picking only one point, so in data there is only one item
     data = data[0]
     result = "Clicked on point from class {}, x={} y={}".format(str(data['class']), str(data['x']), str(data['y']))
-    print(result)
     # something has to be returned as response. Maybe later we will handle more scenarios (eg. when received data not correct etc.)
     return result
 
