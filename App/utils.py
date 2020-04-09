@@ -26,12 +26,19 @@ class Data_class:
 
 
     def save_softmax(self, path, id):
-        if np.max(id) >= np.shape(self.send_ids)[0]:
-            print("neco")
         id = self.send_ids[id]
         os.makedirs(getdir(path), exist_ok=True)
 
+        pred = self.preds[id]
+        target = self.targets[id]
+
         classified = self.softmax[id]
+
+        if pred == target:
+            data = np.concatenate((classified, self.class_avg_softmax[pred]), axis=None)
+            np.savetxt(path, data, delimiter=',', comments='', header='activation')
+            return
+
         np.savetxt(path, classified, delimiter=',', comments='', header='activation')
 
     def save_dense1(self, path, id):
