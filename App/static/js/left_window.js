@@ -125,6 +125,31 @@ function draw_points(){
                 });
         }
 
+        var tooltip = d3.select("#plot")
+            .append("div")
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("width", "40px")
+            .style("height", "30px")
+            .style("padding", "5px")
+
+        var mouseover = function(d, i){
+                tooltip
+                .html("Class " + i)
+                .style("opacity", 1)
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY) + "px")
+        }
+
+        var mouseleave = function(){
+            tooltip
+                .style("opacity", 0)
+        }
+
         svg // draw points
             .select('#g_vectors')
             .selectAll('circle')
@@ -140,6 +165,8 @@ function draw_points(){
             })
             .attr("r", 50)
             .style("opacity", 0.2)
+//            .on("mouseover", mouseover)
+//            .on("mouseleave", mouseleave)
             // .style("fill", function (d, i) {
             //     return color(i)
             // })

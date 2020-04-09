@@ -10,6 +10,16 @@
     display: flex;
 }
 
+.dens {
+    display: flex;
+    flex-direction: column;
+}
+
+.heatm_current, .heatm_average {
+    display: flex;
+    flex-direction: row;
+}
+
 .controls {
     display: flex;
     flex-direction: column;
