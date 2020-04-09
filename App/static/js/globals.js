@@ -26,6 +26,7 @@ fontsize = '20px'
 var slider_range_min = 0.5;
 var slider_range_max = 1.0;
 var slider_ticks = 5;
+var currentZoom = 1;
 
 //checkbox variables
 var checkbox_choices = [0,1,2,3,4,5,6,7,8,9];
@@ -36,6 +37,7 @@ zoom.wheelDelta(function () { // change zoom speed
     });
 
     var zoomed = function () {
+        currentZoom = d3.event.transform.k;
         svg_left.attr("transform", d3.event.transform)
         d3.selectAll("#puntiky")
             .attr("r", 3 / d3.event.transform.k)

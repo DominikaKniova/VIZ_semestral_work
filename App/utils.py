@@ -1,6 +1,7 @@
 import numpy as np
 import csv, os, json
 from os.path import dirname as getdir
+from PIL import Image
 
 
 path = 'Data/'
@@ -94,3 +95,8 @@ class Data_class:
 
         pts = self.points[self.send_ids, :]
         np.savetxt(path, pts, delimiter=',', comments='', header='x,y,class')
+
+    def save_image(self, path, id):
+        id = self.send_ids[id]
+        img = Image.fromarray(self.inputs[id], 'L')
+        img.save(path)

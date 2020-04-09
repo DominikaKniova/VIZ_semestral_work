@@ -29,24 +29,25 @@ function draw_points(){
             tooltip2
                 .style("opacity", 1);
         }
-        var mousemove = function (d) {
+        var mousemove = function (d,i) {
             tooltip2
                 .html("class is: " + d.class)
                 .style("opacity", 1)
                 .style("left", (d3.event.pageX + 20) + "px")
                 .style("top", (d3.event.pageY) + "px")
                 .append("img")
-                    .attr("src","https://github.com/favicon.ico")
+                    // .attr("src","https://github.com/favicon.ico")
+                    .attr("src","/endpoint/image?id="+i)
             // .style("position", 'fixed')
             d3.select(this)
-            .attr("r", 10)
+            .attr("r", 10 / currentZoom)
             .style("opacity", 1.0)
         }
         var mouseleave = function (d) {
             tooltip2
                 .style("opacity", 0);
             d3.select(this)
-            .attr("r", 3)
+            .attr("r", 3 / currentZoom)
             .style("opacity", 0.5)
         }
         var mouseclick = function (d, i) {
@@ -90,6 +91,40 @@ function draw_points(){
             .interpolator(d3.interpolateRainbow)
             .domain([0, 9])
 
+        var defs = svg.append("defs"); // this adds radial gradient color to big circles (turned out it is not really noticeable :D)
+        for(var i = 0; i < 10; i++) {
+            defs.append("radialGradient")
+                .attr("id", "sun-gradient" + i)
+                // .attr("cx", "50%")	//not really needed, since 50% is the default
+                // .attr("cy", "50%")	//not really needed, since 50% is the default
+                // .attr("r", "50%")	//not really needed, since 50% is the default
+                .selectAll("stop")
+                .data([
+                    // {offset: "0%", color: "#FFF76B"},
+                    // {offset: "50%", color: "#FFF845"},
+                    // {offset: "90%", color: "#FFDA4E"},
+                    {offset: "0%", color: (function(){
+                        c = d3.color(color(i))
+                        return d3.rgb(c.r, c.g, c.b, 1)
+                    })()},
+                    {offset: "70%", color: (function(){
+                        c = d3.color(color(i))
+                        return d3.rgb(c.r, c.g, c.b, 0.7)
+                    })()},
+                    {offset: "100%", color: (function(){
+                        c = d3.color(color(i))
+                        return d3.rgb(c.r, c.g, c.b, 0)
+                    })()},
+                ])
+                .enter().append("stop")
+                .attr("offset", function (d) {
+                    return d.offset;
+                })
+                .attr("stop-color", function (d) {
+                    return d.color;
+                });
+        }
+
         svg // draw points
             .select('#g_vectors')
             .selectAll('circle')
@@ -105,10 +140,13 @@ function draw_points(){
             })
             .attr("r", 50)
             .style("opacity", 0.2)
-            .style("fill", function (d, i) {
-                return color(i)
-            })
-        // .style("fill", "url(#linear-gradient)")
+            // .style("fill", function (d, i) {
+            //     return color(i)
+            // })
+            .style("fill", function(d,i){
+                // console.log("url(#sun-gradient"+i+')')
+                return "url(#sun-gradient"+i+')'
+            });
         // .style("stroke", function (d, i) { return color(i) })
     })
 
