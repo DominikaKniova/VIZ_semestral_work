@@ -1,7 +1,6 @@
 function draw_points(){
     var svg = svg_left
-    d3.csv("endpoint/points.csv?min="+slider_range_min+"&max="+slider_range_max+"&checkbox="+checkbox_choices.join(''), function (data) {
-
+    d3.csv("endpoint/points.csv?min="+slider_range_min+"&max="+slider_range_max+"&checkbox="+checkbox_choices.join('')+'&hideCorrect='+(hideCorrect | 0), function (data) {
         data.forEach(function (d) {
             d.x = +d.x;
             d.y = +d.y;
@@ -25,9 +24,8 @@ function draw_points(){
             .style("border-radius", "5px")
             .style("padding", "5px")
 
-        var mouseover = function (d) {
-            tooltip2
-                .style("opacity", 1);
+        var mouseover = function () {
+            tooltip2.style("opacity", 1);
         }
         var mousemove = function (d,i) {
             tooltip2
@@ -36,22 +34,18 @@ function draw_points(){
                 .style("left", (d3.event.pageX + 20) + "px")
                 .style("top", (d3.event.pageY) + "px")
                 .append("img")
-                    // .attr("src","https://github.com/favicon.ico")
-                    .attr("src","/endpoint/image?id="+i)
-            // .style("position", 'fixed')
+                .attr("src","/endpoint/image?id="+i)
             d3.select(this)
             .attr("r", 10 / currentZoom)
             .style("opacity", 1.0)
         }
-        var mouseleave = function (d) {
-            tooltip2
-                .style("opacity", 0);
+        var mouseleave = function () {
+            tooltip2.style("opacity", 0);
             d3.select(this)
             .attr("r", 3 / currentZoom)
             .style("opacity", 0.5)
         }
         var mouseclick = function (d, i) {
-            // console.log(d)
             draw_softmax(i)
             draw_dense1(i)
             draw_dense2(i)
@@ -60,7 +54,6 @@ function draw_points(){
         svg.select('#g_dots').selectAll("circle").remove();
         svg.select('#g_dots').selectAll("circle").data(data).enter()
             .append("circle")
-            // .attr("fill", "red")
             .attr('id', 'puntiky')
             .attr("cx", function (d) {
                 return midx + mult * d.x
