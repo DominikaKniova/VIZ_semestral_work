@@ -97,6 +97,7 @@ class Data_class:
         np.savetxt(path, pts, delimiter=',', comments='', header='x,y,class')
 
     def save_image(self, path, id):
+        os.makedirs(getdir(path), exist_ok=True)
         id = self.send_ids[id]
         img = Image.fromarray(self.inputs[id], 'L')
         img.save(path)

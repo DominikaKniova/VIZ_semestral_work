@@ -272,9 +272,12 @@ _RdBu_data = [
 
 var get_rgb = function(act, act_min, act_max, palette){
     var i = (act - act_min) / (act_max - act_min) * (palette.length - 1)
-    var a = palette[Math.floor( i )].map(function(x) { return x * 255; })
-    var b = palette[Math.ceil( i )].map(function(x) { return x * 255; })
-    a = a.map(function(x) { return x * (i - Math.floor( i )); })
-    b = b.map(function(x) { return x * (Math.ceil( i ) - i); })
+    var a_ = palette[Math.floor( i )].map(function(x) { return x * 255; })
+    var b_ = palette[Math.ceil( i )].map(function(x) { return x * 255; })
+    a = a_.map(function(x) { return x * (i - Math.floor( i )); })
+    b = b_.map(function(x) { return x * (Math.ceil( i ) - i); })
+    if(a[0]==0){ // in extremes floor == ceil and the result is 0,0,0
+        return a_
+    }
     return [a[0]+b[0],a[1]+b[1],a[2]+b[2]]
 }
