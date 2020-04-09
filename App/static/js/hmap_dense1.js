@@ -6,8 +6,7 @@ function draw_dense1(id) { // put everything inside, it will be run once
     var diverging = true
 
     d3.csv("endpoint/data_dense1.csv?id="+id, function (data) {
-    console.log("we are here")
-        console.log(data.length)
+        // console.log(data.length)
         if (data.length == 1024){
             // data = data.slice(512, 1024);
             data = data.slice(0, 512); // we want instance, not class?
@@ -119,12 +118,12 @@ function draw_dense1(id) { // put everything inside, it will be run once
             })
             .style("stroke-width", 4)
             .style("stroke", "none")
-            .style("opacity", 0.8)
+            .style("opacity", 1)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
 
-        svg.select("text").remove()
+        svg.selectAll("text").remove()
 
         svg.append("text")
             .attr("x", 0)
@@ -132,7 +131,49 @@ function draw_dense1(id) { // put everything inside, it will be run once
             .style("font-size", fontsize)
             .text("Dense layer 1");
 
-        svg.select('text').attr('x', function () {
+        svg.select('g') // act_min legend
+            .append('rect')
+            .attr("x", 50)
+            .attr("y", function (d,i) {
+                return height_heatmap + 10
+            })
+            .attr("width", 20)
+            .attr("height", 20)
+            .style("fill", function (d) {
+                return myColor(act_min)
+            })
+            .style("stroke-width", 4)
+            .style("stroke", "none")
+            .style("opacity", 1)
+
+        svg.append("text") // act_min legend
+            .attr("x", 90)
+            .attr("y", height_heatmap + 25)
+            .style("font-size", fontsize-4)
+            .text("min = "+d3.format('.3')(act_min));
+
+        svg.select('g') // act_max legend
+            .append('rect')
+            .attr("x", 50)
+            .attr("y", function (d,i) {
+                return height_heatmap + 40
+            })
+            .attr("width", 20)
+            .attr("height", 20)
+            .style("fill", function (d) {
+                return myColor(act_max)
+            })
+            .style("stroke-width", 4)
+            .style("stroke", "none")
+            .style("opacity", 1)
+
+        svg.append("text") // act_max legend
+            .attr("x", 90)
+            .attr("y", height_heatmap + 55)
+            .style("font-size", fontsize-4)
+            .text("max = "+d3.format('.3')(act_max));
+
+        svg.select('text').attr('x', function () { // has to be after append because it looks at its own size
             return svg.select('text').attr('x') + svg.select('g').node().getBBox().width / 2 - svg.select('text').node().getBBox().width / 2
         })
     })

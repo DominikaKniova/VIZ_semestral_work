@@ -10,7 +10,7 @@ function draw_softmax(id) { // put everything inside, it will be run once
             return i;
         }).keys()
 
-        var x = d3.scaleBand()
+        var get_y = d3.scaleBand()
             .range([0, height_softmax - margin_softmax])
             .domain(myXs)
             .padding(0.05);
@@ -66,7 +66,7 @@ function draw_softmax(id) { // put everything inside, it will be run once
             .enter()
             .append('rect')
             .attr("y", function (d,i) {
-                return x(i)
+                return get_y(i)
             })
             .attr("x", 0)
             .attr("width", softmax_cell_size)
@@ -80,6 +80,60 @@ function draw_softmax(id) { // put everything inside, it will be run once
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
+
+        var color = d3.scaleSequential()
+            .interpolator(d3.interpolateRainbow)
+            .domain([0, 9])
+
+        svg.select('g').selectAll('text').remove()
+
+        svg.append("text")
+            .attr("x", 0)
+            .attr("y", height_heatmap-10)
+            .style("font-size", fontsize)
+            .text("Softmax");
+
+        svg.select('g').append('g').attr('id', 'g_labels')
+            .selectAll("rect")
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr("y", function (d,i) {
+                return get_y(i)
+            })
+            .attr("x", softmax_cell_size+5)
+            .attr("width", 20)
+            .attr("height", softmax_cell_size)
+            .style("fill", function (d, i) {
+                return color(i)
+            })
+            .style("stroke-width", 1)
+            // .style("stroke", "black")
+            .style("opacity", 0.2)
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemove)
+            .on("mouseleave", mouseleave)
+
+        svg.select('g')
+            .selectAll("text")
+            .data(data)
+            .enter()
+            .append('text')
+            .attr("y", function (d,i) {
+                return get_y(i) + 20
+            })
+            .attr("x", 40)
+            .attr("width", softmax_cell_size)
+            .attr("height", softmax_cell_size)
+            .style("fill", function (d) {
+                return myColor(d.activation)
+            })
+            .style("stroke-width", 1)
+            .style("stroke", "black")
+            .style("opacity", 0.8)
+            .text(function (d, i) {
+                return ""+i
+            })
 
         svg.append("text")
             .attr("x", 0)

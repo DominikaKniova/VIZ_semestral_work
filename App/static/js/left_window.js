@@ -51,7 +51,7 @@ function draw_points(){
             .style("opacity", 0.5)
         }
         var mouseclick = function (d, i) {
-            console.log(d)
+            // console.log(d)
             draw_softmax(i)
             draw_dense1(i)
             draw_dense2(i)
@@ -105,11 +105,11 @@ function draw_points(){
                     // {offset: "90%", color: "#FFDA4E"},
                     {offset: "0%", color: (function(){
                         c = d3.color(color(i))
-                        return d3.rgb(c.r, c.g, c.b, 1)
+                        return d3.rgb(c.r, c.g, c.b, 0.5)
                     })()},
-                    {offset: "70%", color: (function(){
+                    {offset: "50%", color: (function(){
                         c = d3.color(color(i))
-                        return d3.rgb(c.r, c.g, c.b, 0.7)
+                        return d3.rgb(c.r, c.g, c.b, 0.3)
                     })()},
                     {offset: "100%", color: (function(){
                         c = d3.color(color(i))
@@ -139,12 +139,11 @@ function draw_points(){
                 return midy + mult * d.y
             })
             .attr("r", 50)
-            .style("opacity", 0.2)
+            // .style("opacity", 0.2)
             // .style("fill", function (d, i) {
             //     return color(i)
             // })
             .style("fill", function(d,i){
-                // console.log("url(#sun-gradient"+i+')')
                 return "url(#sun-gradient"+i+')'
             });
         // .style("stroke", function (d, i) { return color(i) })
