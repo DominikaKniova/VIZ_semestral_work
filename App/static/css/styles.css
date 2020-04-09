@@ -10,12 +10,17 @@
     display: flex;
 }
 
-.dens {
+.dense {
     display: flex;
     flex-direction: column;
 }
 
-.heatm_current, .heatm_average {
+.heatm_current {
+    display: flex;
+    flex-direction: row;
+}
+
+.heatm_average {
     display: flex;
     flex-direction: row;
 }

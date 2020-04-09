@@ -1,7 +1,6 @@
 function draw_dense2(id) { // put everything inside, it will be run once
     var cols = 16;
     var svg = svg_dense2
-    var svg_avg = svg_dense2_avg
     var act_max = Number.POSITIVE_INFINITY;
     var act_min = Number.NEGATIVE_INFINITY;
     var diverging = true

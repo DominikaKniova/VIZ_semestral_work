@@ -1,4 +1,4 @@
-function draw_heatmap(svge, data, color, html_element ){
+function draw_heatmap(svg, data, color, html_element ){
     var myXs = d3.map(data, function (d) {
             return d.x
         }).keys()
@@ -51,11 +51,11 @@ function draw_heatmap(svge, data, color, html_element ){
             .style("opacity", 0.8)
     }
 
-    svge.select('g')
+    svg.select('g')
         .selectAll("rect")
         .remove()
 
-    svge.select('g')
+    svg.select('g')
         .selectAll("rect")
         .data(data)
         .enter()
@@ -78,16 +78,16 @@ function draw_heatmap(svge, data, color, html_element ){
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave)
 
-    svge.select("text").remove()
+    svg.select("text").remove()
 
-    svge.append("text")
+    svg.append("text")
         .attr("x", 0)
         .attr("y", height_heatmap-10)
         .style("font-size", fontsize)
         .text("Dense layer 1");
 
-    svge.select('text').attr('x', function () {
-        return svge.select('text').attr('x') + svge.select('g').node().getBBox().width / 2 - svge.select('text').node().getBBox().width / 2
+    svg.select('text').attr('x', function () {
+        return svg.select('text').attr('x') + svg.select('g').node().getBBox().width / 2 - svg.select('text').node().getBBox().width / 2
     })
 }
 
@@ -143,7 +143,7 @@ function draw_dense1(id) { // put everything inside, it will be run once
         if (!diverging){
         console.log(svg_avg);
             draw_heatmap(svg, data.slice(0, 512), myColor, "#hmap_dense1")
-//            draw_heatmap(svg_avg, data.slice(512, 1024), myColor, "#hmap_dense1_avg")
+            draw_heatmap(svg_avg, data.slice(512, 1024), myColor, "#hmap_dense1_avg")
         }
         else {
         console.log(svg);
