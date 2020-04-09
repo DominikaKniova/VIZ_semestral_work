@@ -6,11 +6,8 @@ function draw_dense1(id) { // put everything inside, it will be run once
     var diverging = true
 
     d3.csv("endpoint/data_dense1.csv?id="+id, function (data) {
-//        i found one bug here, thats why this condition is here to check it
-        if (data.length == 2){
-            console.log(data);
-        }
-
+    console.log("we are here")
+        console.log(data.length)
         if (data.length == 1024){
             // data = data.slice(512, 1024);
             data = data.slice(0, 512); // we want instance, not class?
@@ -88,7 +85,7 @@ function draw_dense1(id) { // put everything inside, it will be run once
         }
         var mousemove = function (d) {
             tooltip
-                .html("The exact value of<br>this cell is: " + Math.round(d.activation*1000)/1000)
+                .html("The exact value of<br>this cell is: " + d3.format('.3')(d.activation))
                 .style("left", (d3.event.pageX + 10) + "px")
                 .style("top", (d3.event.pageY) + "px")
         }

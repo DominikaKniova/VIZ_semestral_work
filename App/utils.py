@@ -21,9 +21,12 @@ class Data_class:
         self.class_avg_dense_2 = [np.genfromtxt(path + 'Dense2/class{}.csv'.format(i), delimiter='\n', skip_header=True) for i in range(10)]
 
         self.points = np.genfromtxt(path + 'points.csv', delimiter=',', skip_header=True)
+        self.send_ids = np.arange(0, np.shape(self.points)[0])
 
 
     def save_softmax(self, path, id):
+        if np.max(id) >= np.shape(self.send_ids)[0]:
+            print("neco")
         id = self.send_ids[id]
         os.makedirs(getdir(path), exist_ok=True)
 
@@ -78,11 +81,16 @@ class Data_class:
         heatmap = diff_from_true - diff_from_false
         np.savetxt(path, heatmap, delimiter=',', comments='', header='activation')
 
-    def save_points(self, path, range_min, range_max):
+    def save_points(self, path, range_min, range_max, checkbox):
         os.makedirs(getdir(path), exist_ok=True)
 
+        # slider filterng
         maxs = np.max(self.softmax, axis=1)
         self.send_ids = np.argwhere((maxs >= range_min) & (maxs <= range_max)).flatten()
+        # checkbox filtering
+        print(checkbox)
+        idx = np.argwhere(np.isin(self.points[self.send_ids, 2], checkbox)).flatten()
+        self.send_ids = self.send_ids[idx]
 
         pts = self.points[self.send_ids, :]
         np.savetxt(path, pts, delimiter=',', comments='', header='x,y,class')

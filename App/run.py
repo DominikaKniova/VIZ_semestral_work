@@ -27,7 +27,9 @@ def get_data2():
 def get_data3():
     min = request.args.get('min')
     max = request.args.get('max')
-    data_class.save_points('Tmp/points.csv', float(min), float(max))
+    checkbox = list(request.args.get('checkbox'))
+    checkbox = [int(s) for s in checkbox]
+    data_class.save_points('Tmp/points.csv', float(min), float(max), np.array(checkbox))
     return send_file('Tmp/points.csv',
                      mimetype='text/csv',
                      attachment_filename='points.csv',

@@ -1,6 +1,6 @@
-function draw_points(min, max, checkbox){
+function draw_points(){
     var svg = svg_left
-    d3.csv("endpoint/points.csv?min="+min+"&max="+max, function (data) {
+    d3.csv("endpoint/points.csv?min="+slider_range_min+"&max="+slider_range_max+"&checkbox="+checkbox_choices.join(''), function (data) {
 
         data.forEach(function (d) {
             d.x = +d.x;
@@ -112,5 +112,5 @@ function draw_points(min, max, checkbox){
         // .style("stroke", function (d, i) { return color(i) })
     })
 
-    draw_points(slider_range_min, slider_range_max, checkbox_choices);
+    draw_points();
 }()); // immediately calls the function

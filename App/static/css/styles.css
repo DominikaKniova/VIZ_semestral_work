@@ -10,6 +10,16 @@
     display: flex;
 }
 
+.controls {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+}
+
 #hmap_dense1{
     margin-top: 20px;
     margin-right: 10px;

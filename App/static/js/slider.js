@@ -5,7 +5,9 @@
           .map(d3.format('.2'))
           .join(' - ')
         );
-        draw_points(d[0], d[1], checkbox_choices);
+        slider_range_min = d[0];
+        slider_range_max = d[1];
+        draw_points();
     }
 
     var slider = d3
