@@ -29,7 +29,8 @@ def get_data3():
     max = request.args.get('max')
     checkbox = list(request.args.get('checkbox'))
     checkbox = [int(s) for s in checkbox]
-    data_class.save_points('Tmp/points.csv', float(min), float(max), np.array(checkbox))
+    hideCorrect = bool(int(request.args.get('hideCorrect')))
+    data_class.save_points('Tmp/points.csv', float(min), float(max), np.array(checkbox), hideCorrect)
     return send_file('Tmp/points.csv',
                      mimetype='text/csv',
                      attachment_filename='points.csv',

@@ -30,6 +30,7 @@ var currentZoom = 1;
 
 //checkbox variables
 var checkbox_choices = [0,1,2,3,4,5,6,7,8,9];
+var hideCorrect = false;
 
 zoom.wheelDelta(function () { // change zoom speed
         scale = -d3.event.deltaY * 0.03;

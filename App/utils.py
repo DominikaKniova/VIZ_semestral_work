@@ -82,22 +82,26 @@ class Data_class:
         heatmap = diff_from_true - diff_from_false
         np.savetxt(path, heatmap, delimiter=',', comments='', header='activation')
 
-    def save_points(self, path, range_min, range_max, checkbox):
+    def save_points(self, path, range_min, range_max, checkbox, hideCorrect):
         os.makedirs(getdir(path), exist_ok=True)
 
         # slider filterng
         maxs = np.max(self.softmax, axis=1)
         self.send_ids = np.argwhere((maxs >= range_min) & (maxs <= range_max)).flatten()
+
         # checkbox filtering
-        print(checkbox)
         idx = np.argwhere(np.isin(self.points[self.send_ids, 2], checkbox)).flatten()
         self.send_ids = self.send_ids[idx]
+
+        if hideCorrect:
+            idx = np.argwhere(self.preds[self.send_ids] != self.targets[self.send_ids]).flatten()
+            self.send_ids = self.send_ids[idx]
 
         pts = self.points[self.send_ids, :]
         np.savetxt(path, pts, delimiter=',', comments='', header='x,y,class')
 
     def save_image(self, path, id):
-        os.makedirs(getdir(path), exist_ok=True)
         id = self.send_ids[id]
+        os.makedirs(getdir(path), exist_ok=True)
         img = Image.fromarray(self.inputs[id], 'L')
         img.save(path)
