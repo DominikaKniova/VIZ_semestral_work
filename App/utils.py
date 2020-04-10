@@ -52,10 +52,8 @@ class Data_class:
         avg_pred_class = self.class_avg_dense_1[pred]
 
         if pred == target:
-            # print(classified)
             data = np.concatenate((classified, avg_true_class), axis=None)
             np.savetxt(path, data, delimiter=',', comments='', header='activation')
-            # print('saved', data.shape)
             return
 
         diff_from_true = np.abs(classified - avg_true_class)
@@ -100,11 +98,15 @@ class Data_class:
             idx = np.argwhere(self.preds[send_ids] != self.targets[send_ids]).flatten()
             send_ids = send_ids[idx]
 
-        # pts = np.concatenate([self.points[send_ids, :], send_ids], axis=1)
-        # np.savetxt(path, pts, delimiter=',', comments='', header='x,y,class')
         np.savetxt(path, send_ids, delimiter=',', comments='', header='id')
 
     def save_image(self, path, id):
         os.makedirs(getdir(path), exist_ok=True)
         img = Image.fromarray(self.inputs[id], 'L')
         img.save(path)
+
+
+def trans_palette(text):
+    text = text.replace('(', '[')
+    text = text.replace(')', ']')
+    print(text)

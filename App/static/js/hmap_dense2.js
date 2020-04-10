@@ -35,7 +35,7 @@ function draw_dense2(id) { // put everything inside, it will be run once
             //     .domain([min_act, max_act])
 
             var myColor= function (act) {
-                return d3.rgb(...get_rgb(act, act_min, act_max, _viridis_data))
+                return d3.rgb(...get_rgb(act, act_min, act_max, _plasma_data))
             }
         }
         else{
@@ -44,7 +44,7 @@ function draw_dense2(id) { // put everything inside, it will be run once
             //     .domain([act_min, act_max])
 
             var myColor= function (act) {
-                return d3.rgb(...get_rgb(act, act_min, act_max, _RdBu_data))
+                return d3.rgb(...get_rgb(act, act_min, act_max, _BrBG_data))
             }
         }
 
