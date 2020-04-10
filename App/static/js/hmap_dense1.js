@@ -7,8 +7,6 @@ function draw_dense1(id) { // put everything inside, it will be run once
     var diverging = true
 
     d3.csv("endpoint/data_dense1.csv?id="+id, function (data) {
-
-        // console.log(data.length)
         if (data.length == 1024){
 //            data = data.slice(0, 512); // we want instance, not class?
             diverging = false
