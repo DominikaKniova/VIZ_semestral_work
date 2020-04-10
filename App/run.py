@@ -23,18 +23,19 @@ def get_data2():
                      attachment_filename='vectors.csv',
                      as_attachment=True)
 
-@app.route('/endpoint/points.csv', methods=['GET'])
+@app.route('/endpoint/ids.csv', methods=['GET'])
 def get_data3():
     min = request.args.get('min')
     max = request.args.get('max')
     checkbox = list(request.args.get('checkbox'))
     checkbox = [int(s) for s in checkbox]
     hideCorrect = bool(int(request.args.get('hideCorrect')))
-    data_class.save_points('Tmp/points.csv', float(min), float(max), np.array(checkbox), hideCorrect)
-    return send_file('Tmp/points.csv',
-                     mimetype='text/csv',
-                     attachment_filename='points.csv',
-                     as_attachment=True)
+    data_class.save_ids('Tmp/ids.csv', float(min), float(max), np.array(checkbox), hideCorrect)
+    return send_file('Tmp/ids.csv', mimetype='text/csv', attachment_filename='ids.csv', as_attachment=True)
+
+@app.route('/endpoint/points.csv', methods=['GET'])
+def find_some_funny_quote_later():
+    return send_file('Data/points.csv', mimetype='text/csv', attachment_filename='points.csv', as_attachment=True)
 
 @app.route('/endpoint/data_softmax.csv', methods=['GET'])
 def what_is_my_purpose():
