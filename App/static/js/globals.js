@@ -95,6 +95,7 @@ var svg_dense1_avg = d3.select("#hmap_dense1_avg")
         .attr("height", height_heatmap)
         .append("g")
         .attr("transform", "translate(" + 0 + "," + 0 + ")")
+
 svg_dense1_avg.append("g")
 
 var svg_dense2_avg = d3.select("#hmap_dense2_avg")
@@ -103,6 +104,7 @@ var svg_dense2_avg = d3.select("#hmap_dense2_avg")
         .attr("height", height_heatmap)
         .append("g")
         .attr("transform", "translate(" + 0 + "," + 0 + ")")
+
 svg_dense2_avg.append("g")
 
 var all_points = 0;
