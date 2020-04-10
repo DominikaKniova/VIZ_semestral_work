@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Neural net viz</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+
+    <script src="static/js/palettes.js"></script>
+    <div id="wrapper">
+        <div class="controls">
+            <div class="slider_wrapper">
+            <div><p id="slider_value"></p></div>
+            <div><div id="slider"></div></div>
+        </div>
+        <div class="checkboxes">
+            <div>
+                <input type="checkbox" class="checkb" value="0" checked="checked">
+                <label>0</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="1" checked="checked">
+                <label>1</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="2" checked="checked">
+                <label>2</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="3" checked="checked">
+                <label>3</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="4" checked="checked">
+                <label>4</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="5" checked="checked">
+                <label>5</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="6" checked="checked">
+                <label>6</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="7" checked="checked">
+                <label>7</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="8" checked="checked">
+                <label>8</label>
+            </div>
+            <div>
+                <input type="checkbox" class="checkb" value="9" checked="checked">
+                <label>9</label>
+            </div>
+            <div>
+                <input type="checkbox" id="checkbox_hideCorrect">
+                <label>Hide correct</label>
+            </div>
+        </div>
+        </div>
+        <div id="plot"></div>
+        <div class="heatmaps">
+            <div class="heatm_current">
+                <div class="dense_current">
+                    <div id="hmap_dense1"></div>
+                    <div id="hmap_dense2"></div>
+                </div>
+                <div class="softmax_current">
+                    <div id="hmap_softmax"></div>
+                </div>
+
+            </div>
+            <div class="heatm_average">
+                <div class="dense_avg">
+                    <div id="hmap_dense1_avg"></div>
+                    <div id="hmap_dense2_avg"></div>
+                </div>
+                <div class="softmax_avg">
+                    <div id="hmap_softmax_avg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="static/js/globals.js"></script>
+    <script src="static/js/left_window.js"></script>
+    <script src="static/js/heatmap.js"></script>
+    <script src="static/js/hmap_softmax.js"></script>
+    <script src="static/js/hmap_dense1.js"></script>
+    <script src="static/js/hmap_dense2.js"></script>
+    <script src="static/js/slider.js"></script>
+    <script src="static/js/checkbox.js"></script>
+    <script src="static/js/hideCorrect_checkbox.js"></script>
+</body>
+</html>
