@@ -1,4 +1,4 @@
-function draw_heatmap(svg, data, color, html_element, act_min, act_max, description){
+function draw_dense_heatmap(svg, data, color, html_element, act_min, act_max, description){
     var myXs = d3.map(data, function (d) {
         return d.x
     }).keys()
@@ -39,7 +39,8 @@ function draw_heatmap(svg, data, color, html_element, act_min, act_max, descript
     }
     var mousemove = function (d) {
         tooltip
-            .html("The exact value of<br>this cell is: " + d3.format('.3')(d.activation))
+            // .html("The exact value of<br>this cell is: " + d3.format('.3')(d.activation))
+            .html("The exact value of<br>this cell is: " + d3.format('.3f')(d.activation))
             .style("left", (d3.event.pageX + 10) + "px")
             .style("top", (d3.event.pageY) + "px")
     }
@@ -166,7 +167,8 @@ function draw_softmax_heatmap(svg, data, color, html_element,  description){
     }
     var mousemove = function (d) {
         tooltip
-            .html("The exact value of<br>this cell is: " +  d3.format('.3')(d.activation))
+            // .html("The exact value of<br>this cell is: " +  d3.format('.3')(d.activation))
+            .html("The exact value of<br>this cell is: " +  d3.format(".3f")(d.activation))
             .style("left", (d3.event.pageX + 10) + "px")
             .style("top", (d3.event.pageY) + "px")
     }

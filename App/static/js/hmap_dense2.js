@@ -52,12 +52,12 @@ function draw_dense2(id) { // put everything inside, it will be run once
             var newdata = data;
             data = data.slice(0, 512);
             newdata = newdata.slice(512, 1024);
-            draw_heatmap(svg, data, myColor, "#hmap_dense2", act_min, act_max, "Dense layer 2")
-            draw_heatmap(svg_avg, newdata, myColor, "#hmap_dense2_avg", act_min, act_max, "Average dense layer 2")
+            draw_dense_heatmap(svg, data, myColor, "#hmap_dense2", act_min, act_max, "Dense layer 2")
+            draw_dense_heatmap(svg_avg, newdata, myColor, "#hmap_dense2_avg", act_min, act_max, "Average dense layer 2")
         }
         else {
             hide_average_heatmaps(2);
-            draw_heatmap(svg, data, myColor, "#hmap_dense2", act_min, act_max, "Dense layer 2")
+            draw_dense_heatmap(svg, data, myColor, "#hmap_dense2", act_min, act_max, "Dense layer 2")
         }
     })
 }
