@@ -15,7 +15,7 @@ var height_heatmap = 480;
 var margin_heatmap = 50;
 // var heatmap_window_height = 20;
 
-var width_softmax = 100;
+var width_softmax = 120;
 var height_softmax = 480;
 var softmax_cell_size = 30;
 var margin_softmax = 50;
@@ -65,10 +65,18 @@ var svg_softmax = d3.select("#hmap_softmax")
         .attr("transform", "translate(" + 0 + "," + 0 + ")")
 svg_softmax.append("g")
 
+var svg_softmax_avg = d3.select("#hmap_softmax_avg")
+        .append("svg")
+        .attr("width", width_softmax + 60)
+        .attr("height", height_softmax)
+        .append("g")
+        .attr("transform", "translate(" + 0 + "," + 0 + ")")
+svg_softmax_avg.append("g")
+
 var svg_dense1 = d3.select("#hmap_dense1")
         .append("svg")
         .attr("width", width_heatmap)
-        .attr("height", height_heatmap + 100)
+        .attr("height", height_heatmap + 60)
         .append("g")
         .attr("transform", "translate(" + 0 + "," + 0 + ")")
 svg_dense1.append("g")
@@ -76,7 +84,33 @@ svg_dense1.append("g")
 var svg_dense2 = d3.select("#hmap_dense2")
         .append("svg")
         .attr("width", width_heatmap)
-        .attr("height", height_heatmap + 100)
+        .attr("height", height_heatmap + 60)
         .append("g")
         .attr("transform", "translate(" + 0 + "," + 0 + ")")
 svg_dense2.append("g")
+
+var svg_dense1_avg = d3.select("#hmap_dense1_avg")
+        .append("svg")
+        .attr("width", width_heatmap)
+        .attr("height", height_heatmap)
+        .append("g")
+        .attr("transform", "translate(" + 0 + "," + 0 + ")")
+svg_dense1_avg.append("g")
+
+var svg_dense2_avg = d3.select("#hmap_dense2_avg")
+        .append("svg")
+        .attr("width", width_heatmap)
+        .attr("height", height_heatmap)
+        .append("g")
+        .attr("transform", "translate(" + 0 + "," + 0 + ")")
+svg_dense2_avg.append("g")
+
+var all_points = 0;
+d3.csv("endpoint/points.csv", function (data) {
+    data.forEach(function (d) {
+        d.class = +d.class;
+        d.x = +d.x;
+        d.y = +d.y;
+    });
+    all_points = data;
+})

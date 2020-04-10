@@ -1,11 +1,11 @@
 function draw_points(){
     var svg = svg_left
-    d3.csv("endpoint/points.csv?min="+slider_range_min+"&max="+slider_range_max+"&checkbox="+checkbox_choices.join('')+'&hideCorrect='+(hideCorrect | 0), function (data) {
+    d3.csv("endpoint/ids.csv?min="+slider_range_min+"&max="+slider_range_max+"&checkbox="+checkbox_choices.join('')+'&hideCorrect='+(hideCorrect | 0), function (data) {
+        // console.log(data)
         data.forEach(function (d) {
-            d.x = +d.x;
-            d.y = +d.y;
-            d.class = +d.class;
+            d.id = +d.id;
         });
+        console.log(data)
 
         var color = d3.scaleSequential()
             .interpolator(d3.interpolateRainbow)
@@ -16,7 +16,6 @@ function draw_points(){
             .style("opacity", 0)
             .attr("class", "tooltip")
             .style("background-color", "white")
-            // .attr("transform", "translate(" + margin_heatmap + "," + 0 + ")")
             .style("border", "solid")
             .style("border-width", "2px")
             .style("width", "60px")
@@ -27,14 +26,14 @@ function draw_points(){
         var mouseover = function () {
             tooltip2.style("opacity", 1);
         }
-        var mousemove = function (d,i) {
+        var mousemove = function (d) {
             tooltip2
-                .html("class is: " + d.class)
+                .html("class is: " + all_points[d.id].class)
                 .style("opacity", 1)
                 .style("left", (d3.event.pageX + 20) + "px")
                 .style("top", (d3.event.pageY) + "px")
                 .append("img")
-                .attr("src","/endpoint/image?id="+i)
+                .attr("src","/endpoint/image?id="+d.id)
             d3.select(this)
             .attr("r", 10 / currentZoom)
             .style("opacity", 1.0)
@@ -45,10 +44,10 @@ function draw_points(){
             .attr("r", 3 / currentZoom)
             .style("opacity", 0.5)
         }
-        var mouseclick = function (d, i) {
-            draw_softmax(i)
-            draw_dense1(i)
-            draw_dense2(i)
+        var mouseclick = function (d) {
+            draw_softmax(d.id)
+            draw_dense1(d.id)
+            draw_dense2(d.id)
         }
 
         svg.select('#g_dots').selectAll("circle").remove();
@@ -56,15 +55,15 @@ function draw_points(){
             .append("circle")
             .attr('id', 'puntiky')
             .attr("cx", function (d) {
-                return midx + mult * d.x
+                return midx + mult * all_points[d.id].x
             })
             .attr("cy", function (d) {
-                return midy + mult * d.y
+                return midy + mult * all_points[d.id].y
             })
             .attr("r", 3)
             .style("opacity", 0.5)
             .style("fill", function (d) {
-                return color(d.class)
+                return color(all_points[d.id].class)
             })
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
@@ -93,9 +92,6 @@ function draw_points(){
                 // .attr("r", "50%")	//not really needed, since 50% is the default
                 .selectAll("stop")
                 .data([
-                    // {offset: "0%", color: "#FFF76B"},
-                    // {offset: "50%", color: "#FFF845"},
-                    // {offset: "90%", color: "#FFDA4E"},
                     {offset: "0%", color: (function(){
                         c = d3.color(color(i))
                         return d3.rgb(c.r, c.g, c.b, 0.5)
@@ -118,13 +114,36 @@ function draw_points(){
                 });
         }
 
-        svg // draw points
+        var tooltip = d3.select("#plot")
+            .append("div")
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("width", "40px")
+            .style("height", "30px")
+            .style("padding", "5px")
+
+        var mouseover = function(d, i){
+                tooltip
+                .html("Class " + i)
+                .style("opacity", 1)
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY) + "px")
+        }
+
+        var mouseleave = function(){
+            tooltip.style("opacity", 0)
+        }
+
+        svg
             .select('#g_vectors')
             .selectAll('circle')
             .data(data)
             .enter()
             .append("circle")
-            // .attr("fill", "red")
             .attr("cx", function (d) {
                 return midx + mult * d.x
             })
@@ -132,10 +151,8 @@ function draw_points(){
                 return midy + mult * d.y
             })
             .attr("r", 50)
-            // .style("opacity", 0.2)
-            // .style("fill", function (d, i) {
-            //     return color(i)
-            // })
+//            .on("mouseover", mouseover)
+//            .on("mouseleave", mouseleave)
             .style("fill", function(d,i){
                 return "url(#sun-gradient"+i+')'
             });

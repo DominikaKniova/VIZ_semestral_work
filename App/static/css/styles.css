@@ -1,13 +1,18 @@
 #plot {
     display: inline-block;
-    /*margin: 100px;*/
-    /*padding: 100px;*/
     border: 2px solid black;
     vertical-align: top;
+    height: 600px;
 }
 
 .heatmaps {
     display: flex;
+    flex-direction: column;
+}
+
+.heatm_current, .heatm_average, .dense_current, .dense_avg {
+    display: flex;
+    flex-direction: row;
 }
 
 .controls {
@@ -21,13 +26,13 @@
     margin-left: 60px
 }
 
-#hmap_dense1{
+#hmap_dense1, #hmap_dense1_avg{
     margin-top: 20px;
     margin-right: 10px;
     margin-left: 30px;
 }
 
-#hmap_dense2, #hmap_softmax{
+#hmap_dense2, #hmap_dense2_avg, #hmap_softmax, #hmap_softmax_avg{
     margin-top: 20px;
     margin-right: 10px;
     margin-left: 10px;

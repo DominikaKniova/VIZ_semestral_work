@@ -68,13 +68,30 @@
         </div>
         <div id="plot"></div>
         <div class="heatmaps">
-            <div id="hmap_dense1"></div>
-            <div id="hmap_dense2"></div>
-            <div id="hmap_softmax"></div>
+            <div class="heatm_current">
+                <div class="dense_current">
+                    <div id="hmap_dense1"></div>
+                    <div id="hmap_dense2"></div>
+                </div>
+                <div class="softmax_current">
+                    <div id="hmap_softmax"></div>
+                </div>
+
+            </div>
+            <div class="heatm_average">
+                <div class="dense_avg">
+                    <div id="hmap_dense1_avg"></div>
+                    <div id="hmap_dense2_avg"></div>
+                </div>
+                <div class="softmax_avg">
+                    <div id="hmap_softmax_avg"></div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="static/js/globals.js"></script>
     <script src="static/js/left_window.js"></script>
+    <script src="static/js/heatmap.js"></script>
     <script src="static/js/hmap_softmax.js"></script>
     <script src="static/js/hmap_dense1.js"></script>
     <script src="static/js/hmap_dense2.js"></script>
