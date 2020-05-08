@@ -2,12 +2,23 @@ import numpy as np
 import csv, os, json
 from os.path import dirname as getdir
 from PIL import Image
+import wget, zipfile
 
 
 path = 'Data/'
 
+def download_data():
+    if not os.path.exists('../test_data.npz'):
+        wget.download('http://cmp.felk.cvut.cz/~qqpultar/VIZ_data/test_data.npz', '../test_data.npz')
+    if not os.path.exists('Data'):
+        wget.download('http://cmp.felk.cvut.cz/~qqpultar/VIZ_data/Data.zip', 'Data.zip')
+        with zipfile.ZipFile('Data.zip', 'r') as zip_ref:
+            zip_ref.extractall('.')
+
 class Data_class:
     def __init__(self):
+        download_data()
+
         aux = np.load('../test_data.npz')
         self.softmax = aux['softmax']
         self.preds = aux['predicted_classes']
