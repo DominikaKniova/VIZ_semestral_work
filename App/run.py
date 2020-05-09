@@ -70,6 +70,11 @@ def gimme_dat_image():
     data_class.save_image('Tmp/image.png', int(id))
     return send_file('Tmp/image.png', mimetype='Tmp/image.png')
 
+@app.route('/endpoint/all_softmax.csv', methods=['GET'])
+def wake_me_up_when_semestr_ends():
+    data_class.save_all_softmax('Tmp/all_softmax.csv')
+    return send_file('Tmp/all_softmax.csv', mimetype='text/csv')
+
 @app.route('/data_receiver', methods = ['POST'])
 def get_js_data():
     data = json.loads(request.form['js_data'])

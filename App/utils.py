@@ -50,6 +50,11 @@ class Data_class:
 
         np.savetxt(path, classified, delimiter=',', comments='', header='activation')
 
+    def save_all_softmax(self, path):
+        os.makedirs(getdir(path), exist_ok=True)
+        classified = self.softmax
+        np.savetxt(path, classified, delimiter=',', comments='')
+
     def save_dense1(self, path, id):
         os.makedirs(getdir(path), exist_ok=True)
 

@@ -8,6 +8,9 @@ var midy = height_left/2;
 var mult = 200;
 var zoom = d3.zoom();
 
+var get_coord = function(x){
+    return midx + mult * x;
+}
 
 var cell_size = 15;
 var width_heatmap = 240;
@@ -56,6 +59,7 @@ var svg_left = d3.select("#plot")
         .append('g')
 svg_left.append('g').attr('id','g_vectors')
 svg_left.append('g').attr('id','g_dots')
+svg_left.append('g').attr('id','g_lines')
 
 var svg_softmax = d3.select("#hmap_softmax")
         .append("svg")
@@ -107,6 +111,15 @@ var svg_dense2_avg = d3.select("#hmap_dense2_avg")
 
 svg_dense2_avg.append("g")
 
+d3.selection.prototype.moveToBack = function() { // allows to move lines to the back, so they do not interfere with selection
+    return this.each(function() {
+        var firstChild = this.parentNode.firstChild;
+        if (firstChild) {
+            this.parentNode.insertBefore(this, firstChild);
+        }
+    });
+};
+
 var all_points = 0;
 d3.csv("endpoint/points.csv", function (data) {
     data.forEach(function (d) {
@@ -115,4 +128,29 @@ d3.csv("endpoint/points.csv", function (data) {
         d.y = +d.y;
     });
     all_points = data;
+    draw_points();
+})
+
+var global_vectors = 0;
+d3.csv("endpoint/vectors.csv", function (data) {
+    data.forEach(function (d) {
+        d.x = +d.x;
+        d.y = +d.y;
+    });
+    global_vectors = data;
+    draw_vectors();
+})
+
+var all_softmax = 0;
+d3.text("endpoint/all_softmax.csv", function (data) {
+    // console.log(data[0])
+    function csvToArray (csv) {
+        rows = csv.split("\n");
+
+        return rows.map(function (row) {
+            return row.split(",").map(Number);
+        });
+    }
+    all_softmax = csvToArray(data)
+// console.log(all_softmax[0])
 })
