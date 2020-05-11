@@ -1,6 +1,6 @@
-// these guys are visible everywhere
-// these guys are visible everywhere
+// --global variables--
 
+// points plot variables
 var width_left = 600;
 var height_left = 600;
 var midx = width_left/2;
@@ -12,11 +12,11 @@ var get_coord = function(x){
     return midx + mult * x;
 }
 
+//heatmap variables
 var cell_size = 15;
 var width_heatmap = 240;
 var height_heatmap = 480;
 var margin_heatmap = 50;
-// var heatmap_window_height = 20;
 
 var width_softmax = 120;
 var height_softmax = 480;
@@ -35,25 +35,25 @@ var currentZoom = 1;
 var checkbox_choices = [0,1,2,3,4,5,6,7,8,9];
 var hideCorrect = false;
 
-zoom.wheelDelta(function () { // change zoom speed
+// zoom handler
+zoom.wheelDelta(function () {
+        // change zoom speed
         scale = -d3.event.deltaY * 0.03;
         return scale;
     });
 
-    var zoomed = function () {
-        currentZoom = d3.event.transform.k;
-        svg_left.attr("transform", d3.event.transform)
-        d3.selectAll("#puntiky")
-            .attr("r", 3 / d3.event.transform.k)
-    }
+var zoomed = function () {
+    currentZoom = d3.event.transform.k;
+    svg_left.attr("transform", d3.event.transform)
+    d3.selectAll("#puntiky")
+        .attr("r", 3 / d3.event.transform.k)
+}
 
+// svg handler for points
 var svg_left = d3.select("#plot")
         .append("svg")
         .attr("width", width_left)
         .attr("height", height_left)
-        // .call(zoom.on("zoom", function () {
-        //     svg_left.attr("transform", d3.event.transform)
-        // }))
         .call(zoom.on("zoom", zoomed))
         .on("dblclick.zoom", null)
         .append('g')
@@ -61,6 +61,7 @@ svg_left.append('g').attr('id','g_vectors')
 svg_left.append('g').attr('id','g_dots')
 svg_left.append('g').attr('id','g_lines')
 
+// svg handlers for softmax layers
 var svg_softmax = d3.select("#hmap_softmax")
         .append("svg")
         .attr("width", width_softmax + 60)
@@ -77,6 +78,7 @@ var svg_softmax_avg = d3.select("#hmap_softmax_avg")
         .attr("transform", "translate(" + 0 + "," + 0 + ")")
 svg_softmax_avg.append("g")
 
+// svg handlers for dense layers
 var svg_dense1 = d3.select("#hmap_dense1")
         .append("svg")
         .attr("width", width_heatmap)
@@ -111,7 +113,8 @@ var svg_dense2_avg = d3.select("#hmap_dense2_avg")
 
 svg_dense2_avg.append("g")
 
-d3.selection.prototype.moveToBack = function() { // allows to move lines to the back, so they do not interfere with selection
+// allows to move lines to the back, so they do not interfere with selection
+d3.selection.prototype.moveToBack = function() {
     return this.each(function() {
         var firstChild = this.parentNode.firstChild;
         if (firstChild) {
@@ -120,6 +123,7 @@ d3.selection.prototype.moveToBack = function() { // allows to move lines to the 
     });
 };
 
+// --prepare data before drawing--
 var all_points = 0;
 d3.csv("endpoint/points.csv", function (data) {
     data.forEach(function (d) {
@@ -143,14 +147,11 @@ d3.csv("endpoint/vectors.csv", function (data) {
 
 var all_softmax = 0;
 d3.text("endpoint/all_softmax.csv", function (data) {
-    // console.log(data[0])
     function csvToArray (csv) {
         rows = csv.split("\n");
-
         return rows.map(function (row) {
             return row.split(",").map(Number);
         });
     }
     all_softmax = csvToArray(data)
-// console.log(all_softmax[0])
 })

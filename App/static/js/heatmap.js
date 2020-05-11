@@ -1,3 +1,5 @@
+// --functions for drawing heatmaps (both diverging and sequential)
+
 function draw_dense_heatmap(svg, data, color, html_element, act_min, act_max, description){
     var myXs = d3.map(data, function (d) {
         return d.x
@@ -17,12 +19,12 @@ function draw_dense_heatmap(svg, data, color, html_element, act_min, act_max, de
         .domain(myYs)
         .padding(0.05);
 
-    var tooltip = d3.select(html_element) // create a tooltip
+    // create a tooltip
+    var tooltip = d3.select(html_element)
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
         .style("background-color", "white")
-        // .attr("transform", "translate(" + margin_heatmap + "," + 0 + ")")
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
@@ -30,6 +32,7 @@ function draw_dense_heatmap(svg, data, color, html_element, act_min, act_max, de
         .style("height", "60px")
         .style("padding", "5px")
 
+    // define mouse functions
     var mouseover = function (d) {
         tooltip
             .style("opacity", 1)
@@ -39,8 +42,7 @@ function draw_dense_heatmap(svg, data, color, html_element, act_min, act_max, de
     }
     var mousemove = function (d) {
         tooltip
-            // .html("The exact value of<br>this cell is: " + d3.format('.3')(d.activation))
-            .html("The exact value of<br>this cell is: " + d3.format('.3f')(d.activation))
+            .html("Cell value: " + d3.format('.3f')(d.activation))
             .style("left", (d3.event.pageX + 10) + "px")
             .style("top", (d3.event.pageY) + "px")
     }
@@ -52,10 +54,10 @@ function draw_dense_heatmap(svg, data, color, html_element, act_min, act_max, de
             .style("opacity", 0.8)
     }
 
+    // create heatmap structure and fill it with data
     svg.select('g')
         .selectAll("rect")
         .remove()
-
     svg.select('g')
         .selectAll("rect")
         .data(data)
@@ -79,6 +81,7 @@ function draw_dense_heatmap(svg, data, color, html_element, act_min, act_max, de
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave)
 
+    // legend texts for heatmaps
     svg.selectAll("text").remove()
 
     svg.append("text")
@@ -144,12 +147,12 @@ function draw_softmax_heatmap(svg, data, color, html_element,  description){
         .domain(myXs)
         .padding(0.05);
 
-    var tooltip = d3.select(html_element) // create a tooltip
+    // create a tooltip
+    var tooltip = d3.select(html_element)
             .append("div")
             .style("opacity", 0)
             .attr("class", "tooltip")
             .style("background-color", "white")
-            // .attr("transform", "translate(" + margin_heatmap + "," + 0 + ")")
             .style("border", "solid")
             .style("border-width", "2px")
             .style("border-radius", "5px")
@@ -163,12 +166,10 @@ function draw_softmax_heatmap(svg, data, color, html_element,  description){
         d3.select(this)
             .style("stroke", "black")
             .style("stroke-width", "1px")
-        // .style("opacity", 1)
     }
     var mousemove = function (d) {
         tooltip
-            // .html("The exact value of<br>this cell is: " +  d3.format('.3')(d.activation))
-            .html("The exact value of<br>this cell is: " +  d3.format(".3f")(d.activation))
+            .html("Cell value: " +  d3.format(".3f")(d.activation))
             .style("left", (d3.event.pageX + 10) + "px")
             .style("top", (d3.event.pageY) + "px")
     }
@@ -229,7 +230,6 @@ function draw_softmax_heatmap(svg, data, color, html_element,  description){
             return color2(i)
         })
         .style("stroke-width", 1)
-        // .style("stroke", "black")
         .style("opacity", 0.2)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
@@ -255,14 +255,9 @@ function draw_softmax_heatmap(svg, data, color, html_element,  description){
         .text(function (d, i) {
             return ""+i
         })
-
-//    svg.append("text")
-//        .attr("x", 0)
-//        .attr("y", height_heatmap-10)
-//        .style("font-size", fontsize)
-//        .text(description);
 }
 
+// when falsely classified points is chosen -> average heatmaps are not needed
 function hide_average_heatmaps(layer){
     if (layer == 1){
         svg_dense1_avg.select('g')

@@ -6,6 +6,7 @@ function uncheckAll(){
 }
 
 (function (){
+    // define on_change listener for checkboxes [0 ... 9]
     var update = function(){
         checkbox_choices = [];
         d3.selectAll(".checkb").each(function(d){
@@ -15,10 +16,20 @@ function uncheckAll(){
           }
         });
         if(checkbox_choices.length > 0){
-//            update_points();
             draw_points();
         }
       }
-  d3.selectAll(".checkb").on("change", update);
-  checkAll();
+      d3.selectAll(".checkb").on("change", update);
+      checkAll();
+
+    // define on_change listener for hide_correct checkbox
+      var update_hideCorrect = function(){
+              cb = d3.select(this);
+              hideCorrect = false;
+              if(cb.property("checked")){
+                  hideCorrect = true;
+              }
+                draw_points();
+            }
+      d3.selectAll('#checkbox_hideCorrect').on("change", update_hideCorrect);
 }());
