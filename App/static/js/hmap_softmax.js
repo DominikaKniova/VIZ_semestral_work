@@ -13,10 +13,10 @@ function draw_softmax(id) {
             diverging = false
         }
 
-        // TODO TODO TODO TODO !!!!
-        var myColor = d3.scaleLinear()
-          .range(["white", "black"])
-          .domain([0.0,1.0])
+        var myColor= function (act) {
+            // sequential grayscale color mapping (mapping is defined in palettes.js)
+            return d3.rgb(...get_rgb(act, 0.0, 1.0, _greys_data))
+        }
 
         if (!diverging){
             var newdata = data;

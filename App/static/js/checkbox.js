@@ -5,6 +5,7 @@ function uncheckAll(){
     d3.selectAll('.checkb').property('checked','false');
 }
 
+// --checkbox handler--
 (function (){
     // define on_change listener for checkboxes [0 ... 9]
     var update = function(){

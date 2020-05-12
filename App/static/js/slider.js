@@ -1,5 +1,8 @@
+// --slider handler--
 (function (){
     var slider_width = 200
+
+    // define onchange listener
     var onchange = function(d){
         d3.select('p#slider_value').text(d
           .map(d3.format('.2'))
@@ -16,7 +19,6 @@
     .max(1.0)
     .width(slider_width)
     .tickFormat(d3.format('.2'))
-//    .ticks(10)
     .ticks(slider_ticks)
     .default([slider_range_min, slider_range_max])
     .fill('#2196f3')

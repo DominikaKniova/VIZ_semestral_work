@@ -39,6 +39,7 @@ class Data_class:
 
     # --following methods pre-process and send requested data to web application--
 
+    # prepare data for softmax layer
     def save_softmax(self, path, id):
         os.makedirs(getdir(path), exist_ok=True)
         pred = self.preds[id]
