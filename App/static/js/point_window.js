@@ -36,7 +36,7 @@ function draw_points(){
                 })
                 .attr("x2", get_coord(all_points[id].x))
                 .attr("y2", get_coord(all_points[id].y))
-                .attr("stroke-width", 3)
+                .attr("stroke-width", 3 / currentZoom)
                 .attr("stroke", "black")
                 .attr("stroke-opacity", function(d,i){
                     // as opacity take value of neuron in softmax layer
@@ -91,7 +91,7 @@ function draw_points(){
             .attr("cy", function (d) {
                 return get_coord(all_points[d.id].y);
             })
-            .attr("r", 3)
+            .attr("r", 3 / currentZoom)
             .style("opacity", 0.5)
             .style("fill", function (d) {
                 return color(all_points[d.id].class)
