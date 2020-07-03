@@ -2,7 +2,7 @@
 
 Semestral work submitted in the course on visualization. The app allows to visualize activations and outputs from a CNN classifying MNIST digits. The source data should be downloaded automatically.
 
-All data points are visualizaed in the square window. For efficient exploration you can use filtering in the left panel.
+All data points are visualizaed in the square window. For efficient exploration you can use filtering in the left panel or get the precise values by pointing at the tiles in the right panel.
 
 
 ## How to run
