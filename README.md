@@ -4,8 +4,11 @@ Semestral work submitted in the course on visualization. The app allows to visua
 
 
 ## How to run
-1) pip install flask pillow numpy wget
-2) cd App; python run.py
+1) Install requirements:\
+pip install flask pillow numpy wget
+2) Run app:\
+cd App\
+python run.py
 3) Open browser (URL is shown in terminal)
 
 
