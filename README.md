@@ -6,3 +6,5 @@ pip install flask pillow numpy wget
 cd App\
 python run.py
 3) Open browser (URL is shown in terminal)
+
+![Example](img0.png)
