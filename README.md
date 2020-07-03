@@ -7,4 +7,5 @@ cd App\
 python run.py
 3) Open browser (URL is shown in terminal)
 
-![Example](img0.png)
+![Example 1](img1.png)
+![Example 0](img0.png)
