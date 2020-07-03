@@ -1,6 +1,6 @@
 # RainbowVis
 
-Semestral work submitted in the course on visualization. The app allows to visualize 
+Semestral work submitted in the course on visualization. The app allows to visualize activations and outputs from a CNN classifying MNIST digits. The needed data should be downloaded automatically.
 
 
 ## How to run
