@@ -2,6 +2,8 @@
 
 Semestral work submitted in the course on visualization.
 
+
+## How to run
 1) Install requirements:\
 pip install flask pillow numpy wget
 2) Run app:\
