@@ -13,5 +13,5 @@ python run.py
 
 
 ## Illustration
-![Example 1](img1.png | width=2000)
-![Example 0](img0.png | width=2000)
+![Example 1](img1.png)
+![Example 0](img0.png)
