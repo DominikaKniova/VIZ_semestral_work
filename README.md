@@ -15,5 +15,7 @@ python run.py
 
 
 ## Illustration
+Correctly classified input
 ![Example 1](img1.png)
+Incorrectly classified input
 ![Example 0](img0.png)
