@@ -1,6 +1,6 @@
 # RainbowVis
 
-Semestral work submitted in the course on visualization.
+Semestral work submitted in the course on visualization. The app allows to visualize 
 
 
 ## How to run
@@ -13,5 +13,5 @@ python run.py
 
 
 ## Illustration
-![Example 1](img1.png)
-![Example 0](img0.png)
+![Example 1](img1.png | width=2000)
+![Example 0](img0.png | width=2000)
