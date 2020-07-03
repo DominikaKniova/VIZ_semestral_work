@@ -1,4 +1,6 @@
-# VIZ_semestral_work
+# RainbowVis
+
+Semestral work in the course on visualization.
 
 1) Install requirements:\
 pip install flask pillow numpy wget
